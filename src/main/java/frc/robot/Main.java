@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.RobotBase;
  * Unless you know what you are doing, do not modify this file except to
  * change the parameter class to the startRobot call.
  */
+//Normal comment for testing commit
 public final class Main {
   private Main() {
   }
