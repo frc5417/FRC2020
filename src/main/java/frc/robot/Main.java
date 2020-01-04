@@ -4,9 +4,8 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 package frc.robot;
-
+// comment
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
@@ -14,6 +13,7 @@ import edu.wpi.first.wpilibj.RobotBase;
  * Unless you know what you are doing, do not modify this file except to
  * change the parameter class to the startRobot call.
  */
+//Normal comment for testing commit
 public final class Main {
   private Main() {
   }
