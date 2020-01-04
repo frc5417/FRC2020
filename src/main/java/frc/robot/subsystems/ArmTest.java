@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -14,7 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * <p>Joystick analog values range from -1 to 1 and speed controller inputs also
  * range from -1 to 1 making it easy to work together.
  */
-public class Robot extends TimedRobot {
+public class ArmTest extends TimedRobot {
   private static final int leadDeviceID = 1;
   private static final int followDeviceID = 2;
   private static final int kJoystickPort = 0;
