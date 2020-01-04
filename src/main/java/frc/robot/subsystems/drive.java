@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -21,14 +20,17 @@ public class drive extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  TalonSRX driveMasterLeft = new TalonSRX(constants.left1);
-  TalonSRX driveSlaveLeft1 = new TalonSRX(constants.left2);
-  VictorSPX driveSlaveLeft2 = new VictorSPX(constants.left3);
-  TalonSRX driveMasterRight = new TalonSRX(constants.right1);
-  TalonSRX driveSlaveRight1 = new TalonSRX(constants.right2);
-  TalonSRX driveSlaveRight2 = new TalonSRX(constants.right3);
+  
+  TalonSRX driveMasterLeft = new TalonSRX(1);
+  TalonSRX driveSlaveLeft1 = new TalonSRX(2);
+  VictorSPX driveSlaveLeft2 = new VictorSPX(3);
+  TalonSRX driveMasterRight = new TalonSRX(4);
+  TalonSRX driveSlaveRight1 = new TalonSRX(5);
+  TalonSRX driveSlaveRight2 = new TalonSRX(6);
+  
 
   public drive(){
+    /*
     driveSlaveLeft1.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
     driveSlaveLeft2.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
 
@@ -37,12 +39,13 @@ public class drive extends Subsystem {
 
     driveMasterRight.setNeutralMode(NeutralMode.Coast);
     driveMasterLeft.setNeutralMode(NeutralMode.Coast);
+    */
   }
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new driveJoystick());
+    setDefaultCommand(new driveAuton());
 
   }
 
