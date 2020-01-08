@@ -21,8 +21,10 @@ public class auton extends SubsystemBase {
     TalonSRX driveMasterRight;
     VictorSPX driveSlaveLeft;
     VictorSPX driveSlaveRight;
+    double v;
     public auton(){
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry tv = table.getEntry("tv");
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry ta = table.getEntry("ta");
@@ -33,42 +35,46 @@ public class auton extends SubsystemBase {
     y = ty.getDouble(0.0);
     area = ta.getDouble(0.0);
     s = ts.getDouble(0.0);
+    v = tv.getDouble(0.0);
 
     //post to smart dashboard periodically
     SmartDashboard.putNumber("LimelightX", x);
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("LimelightArea", area);
 
-    driveMasterLeft = new TalonSRX(3);
-    driveMasterRight = new TalonSRX(2);
-    driveSlaveLeft = new VictorSPX(1);
-    driveSlaveRight = new VictorSPX(4);
+    driveMasterLeft = new TalonSRX(2);
+    driveMasterRight = new TalonSRX(1);
+    driveSlaveLeft = new VictorSPX(4);
+    driveSlaveRight = new VictorSPX(3);
+
 
     }
     
     public void autoAlign(boolean button){
         
-        double Kp = 0.1;
-        double min_command = 0.05;
+        double Kp = 0.2;
+        double min_command = .3;
         if (button == true){
-            double heading_error = -x;
-            double steering_adjust = 0.0f;
-            if (x > 1.0)
-            {
-                steering_adjust = Kp*heading_error - min_command;
-            }
-            else if (x < 1.0)
-            {
-                steering_adjust = Kp*heading_error + min_command;
-            }
-            left_command += steering_adjust;
-            right_command -= steering_adjust;
+            if(v == 1){ 
+                double heading_error = -x;
+                double steering_adjust = 0.0f;
+                if (x > 1.0)
+                {
+                    steering_adjust = Kp*heading_error - min_command;
+                }
+                else if (x < 1.0)
+                {
+                    steering_adjust = Kp*heading_error + min_command;
+                }
+                left_command += steering_adjust;
+                right_command -= steering_adjust;
 
-            driveSlaveRight.set(ControlMode.Follower, driveMasterRight.getDeviceID());
-            driveSlaveLeft.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
+                driveSlaveRight.set(ControlMode.Follower, driveMasterRight.getDeviceID());
+                driveSlaveLeft.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
 
-            driveMasterLeft.set(ControlMode.PercentOutput, left_command);
-            driveMasterRight.set(ControlMode.PercentOutput, right_command);
+                driveMasterLeft.set(ControlMode.PercentOutput, right_command);
+                driveMasterRight.set(ControlMode.PercentOutput, left_command);
+            }
         }
 
     }
