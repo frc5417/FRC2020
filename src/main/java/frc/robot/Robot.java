@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    aut.autoAlign(pad.getRawButton(4));
+    aut.autoAlign(pad.getRawButton(1));
   }
 
   /**
