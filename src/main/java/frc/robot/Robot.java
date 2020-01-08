@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Joystick; 
+import frc.robot.subsystems.auton;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,6 +30,8 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
+  auton aut = new auton();
+  Joystick pad = new Joystick(1);
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
@@ -86,6 +90,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    aut.autoAlign(pad.getRawButton(4));
   }
 
   /**
