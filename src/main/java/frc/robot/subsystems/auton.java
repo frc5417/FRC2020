@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Color;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -42,7 +41,7 @@ public class auton extends SubsystemBase {
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry ta = table.getEntry("ta");
-    NetworkTableEntry ts = table.getEntry("ts");œ
+    NetworkTableEntry ts = table.getEntry("ts");
 
     //read values periodically
     x = tx.getDouble(0.0);
@@ -63,10 +62,10 @@ public class auton extends SubsystemBase {
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("LimelightArea", area);
 
-    driveMasterLeft = new TalonSRX(2);
-    driveMasterRight = new TalonSRX(1);
-    driveSlaveLeft = new VictorSPX(4);
-    driveSlaveRight = new VictorSPX(3);
+    driveMasterRight = new TalonSRX(2);
+    driveMasterLeft = new TalonSRX(1);
+    driveSlaveRight = new VictorSPX(4);
+    driveSlaveLeft = new VictorSPX(3);
 
 
     }
@@ -93,8 +92,8 @@ public class auton extends SubsystemBase {
                 driveSlaveRight.set(ControlMode.Follower, driveMasterRight.getDeviceID());
                 driveSlaveLeft.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
 
-                driveMasterLeft.set(ControlMode.PercentOutput, right_command);
-                driveMasterRight.set(ControlMode.PercentOutput, left_command);
+                driveMasterRight.set(ControlMode.PercentOutput, right_command);
+                driveMasterLeft.set(ControlMode.PercentOutput, left_command);
             }
         }
 
@@ -106,7 +105,7 @@ public class auton extends SubsystemBase {
 
         if(a1 < idealElevation){
             driveMasterLeft.set(ControlMode.PercentOutput, 0);
-            driveMasterRight.set(ControlMode.PercetOutput, 0);
+            driveMasterRight.set(ControlMode.PercentOutput, 0);
         }
 
     }
