@@ -28,7 +28,7 @@ public class auton extends SubsystemBase {
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry ta = table.getEntry("ta");
-    NetworkTableEntry ts = table.getEntry("ts");
+    NetworkTableEntry ts = table.getEntry("ts");œ
 
     //read values periodically
     x = tx.getDouble(0.0);
