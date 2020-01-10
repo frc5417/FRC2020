@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-
+import edu.wpi.first.wpilibj.Color;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -22,6 +22,20 @@ public class auton extends SubsystemBase {
     VictorSPX driveSlaveLeft;
     VictorSPX driveSlaveRight;
     double v;
+
+    double h1;
+    //height of limelight in inches
+    double h2;
+    //height of goal in inches
+    double d;
+    //desired distance from goal in inches
+    double a1;
+    //angle of limelight
+    double idealElevation;
+    //ideal angle of elevation to goal
+    double a2;
+    //actual angle of elevation to goal
+
     public auton(){
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tv = table.getEntry("tv");
@@ -36,6 +50,13 @@ public class auton extends SubsystemBase {
     area = ta.getDouble(0.0);
     s = ts.getDouble(0.0);
     v = tv.getDouble(0.0);
+
+    //will need to change
+    h1 = 6;
+    h2 = 81.24;
+    d = 36;
+    a1 = 30;
+
 
     //post to smart dashboard periodically
     SmartDashboard.putNumber("LimelightX", x);
@@ -75,6 +96,17 @@ public class auton extends SubsystemBase {
                 driveMasterLeft.set(ControlMode.PercentOutput, right_command);
                 driveMasterRight.set(ControlMode.PercentOutput, left_command);
             }
+        }
+
+    }
+
+    public void autoDistance(){
+
+        idealElevation = Math.toDegrees(Math.atan((h2-h1)/d)) - a1;
+
+        if(a1 < idealElevation){
+            driveMasterLeft.set(ControlMode.PercentOutput, 0);
+            driveMasterRight.set(ControlMode.PercetOutput, 0);
         }
 
     }
