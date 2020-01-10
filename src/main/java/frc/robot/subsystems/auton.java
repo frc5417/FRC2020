@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+
 public class auton extends SubsystemBase {
 
     // Horizontal Offset variable
@@ -131,22 +132,15 @@ public class auton extends SubsystemBase {
                 driveSlaveRight.set(ControlMode.Follower, driveMasterRight.getDeviceID());
                 driveSlaveLeft.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
 
-                // Set masters and their power values
+                // Set masters and their power values, stop motors at certain distance
+                do {
+                idealElevation = Math.toDegrees(Math.atan((h2-h1)/d)) - a1;
                 driveMasterRight.set(ControlMode.PercentOutput, right_command);
                 driveMasterLeft.set(ControlMode.PercentOutput, left_command);
+                } while (a1 < idealElevation);
             }
         }
 
     }
 
-    public void autoDistance(){
-
-        idealElevation = Math.toDegrees(Math.atan((h2-h1)/d)) - a1;
-
-        if(a1 < idealElevation){
-            driveMasterLeft.set(ControlMode.PercentOutput, 0);
-            driveMasterRight.set(ControlMode.PercentOutput, 0);
-        }
-
-    }
 }
