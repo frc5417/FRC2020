@@ -137,7 +137,7 @@ public class auton extends SubsystemBase {
                 idealElevation = Math.toDegrees(Math.atan((h2-h1)/d)) - a1;
                 driveMasterRight.set(ControlMode.PercentOutput, right_command);
                 driveMasterLeft.set(ControlMode.PercentOutput, left_command);
-                } while (a1 < idealElevation);
+                } while (y < idealElevation);
             }
         }
 
