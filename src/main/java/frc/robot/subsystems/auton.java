@@ -44,16 +44,13 @@ public class auton extends SubsystemBase {
     double h2;
     
     // Desired distance from goal in inches
-    double d;
+    double idealDistance;
+
+    //Actual distance from goal in inches
+    double d; 
     
     // Angle of limelight
-    double a1;
-    
-    // Ideal angle of elevation to goal
-    double idealElevation;
-    
-    // Actual angle of elevation to goal
-    double a2;
+    double a;
     
 
     public auton(){
@@ -75,8 +72,8 @@ public class auton extends SubsystemBase {
     // Will need to change, values to calculate robot stopping distance from target
     h1 = 6;
     h2 = 81.24;
-    d = 36;
-    a1 = 30;
+    idealDistance = 12;
+    a = 30;
 
 
     // Post to smart dashboard periodically
@@ -134,10 +131,10 @@ public class auton extends SubsystemBase {
 
                 // Set masters and their power values, stop motors at certain distance
                 do {
-                idealElevation = Math.toDegrees(Math.atan((h2-h1)/d)) - a1;
+                d = (h1 - h2) / Math.tan(a + y);
                 driveMasterRight.set(ControlMode.PercentOutput, right_command);
                 driveMasterLeft.set(ControlMode.PercentOutput, left_command);
-                } while (y < idealElevation);
+                } while(d < idealDistance);
             }
         }
 
