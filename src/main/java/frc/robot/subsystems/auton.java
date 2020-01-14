@@ -114,6 +114,8 @@ public class auton extends SubsystemBase {
                 // Uses Horizontal Offset to calculate the steering adjust
                 if (x > 1.0)
                 {
+
+                    
                     steering_adjust = Kp*heading_error - min_command;
                 }
                 else if (x < 1.0)
@@ -124,17 +126,16 @@ public class auton extends SubsystemBase {
                 // Adjust motors based on the steering adjust
                 left_command += steering_adjust;
                 right_command -= steering_adjust;
-
                 // Set slaves
                 driveSlaveRight.set(ControlMode.Follower, driveMasterRight.getDeviceID());
                 driveSlaveLeft.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
 
                 // Set masters and their power values, stop motors at certain distance
-                do {
-                d = (h1 - h2) / Math.tan(a + y);
+                //do {
+                //d = (h1 - h2) / Math.tan(a + y);
                 driveMasterRight.set(ControlMode.PercentOutput, right_command);
                 driveMasterLeft.set(ControlMode.PercentOutput, left_command);
-                } while(d < idealDistance);
+                //} while(d < idealDistance);
             }
         }
 
