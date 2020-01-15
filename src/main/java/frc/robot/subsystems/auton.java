@@ -100,7 +100,7 @@ public class auton extends SubsystemBase {
         double min_command = .3;
 
         // Check whether the buttons is pressed
-        if (button){
+        if (button == true){
 
             // Check whether the target is visible
             if(v == 1){ 
