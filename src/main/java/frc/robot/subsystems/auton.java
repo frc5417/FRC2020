@@ -54,20 +54,6 @@ public class auton extends SubsystemBase {
     
 
     public auton(){
-    // Open the network table to access the limelight values
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableEntry tv = table.getEntry("tv");
-    NetworkTableEntry tx = table.getEntry("tx");
-    NetworkTableEntry ty = table.getEntry("ty");
-    NetworkTableEntry ta = table.getEntry("ta");
-    NetworkTableEntry ts = table.getEntry("ts");
-
-    // Read values periodically
-    x = tx.getDouble(0.0);
-    y = ty.getDouble(0.0);
-    area = ta.getDouble(0.0);
-    s = ts.getDouble(0.0);
-    v = tv.getDouble(0.0);
 
     // Will need to change, values to calculate robot stopping distance from target
     h1 = 6;
@@ -89,56 +75,74 @@ public class auton extends SubsystemBase {
 
 
     }
-    
+
+    public void setX(NetworkTableEntry tx){
+        x = tx.getDouble(0.0);
+    }
+    public void setArea(NetworkTableEntry ta){
+      area = ta.getDouble(0.0);
+  
+    }
+    public void setV(NetworkTableEntry tv){
+      v = tv.getDouble(0.0);
+    }
+    public void printX(){
+      System.out.println(x);
+    }
     // Program to allow the drivers to auto align based on the target
     public void autoAlign(boolean button){
-        
-        // P value to allow the motors to move smoothly
-        double Kp = 0.2;
+      Double Kp = 0.005;
+      Double KpDistance = 0.075;
+      Double area_error = 3 - area;
+      Double driving_adjust = 0.05;
+      Double min_command = 0.05;
 
-        // Minimum power the robots need to move
-        double min_command = .3;
-
-        // Check whether the buttons is pressed
-        if (button == true){
-
-            // Check whether the target is visible
-            if(v == 1){ 
-
-                // Check the current the robots position in relation to the target
-                double heading_error = -x;
-
-                // Value for the robot to turn in relation to the target
-                double steering_adjust = 0.0;
-
-                // Uses Horizontal Offset to calculate the steering adjust
-                if (x > 1.0)
-                {
-
-                    
-                    steering_adjust = Kp*heading_error - min_command;
-                }
-                else if (x < 1.0)
-                {
-                    steering_adjust = Kp*heading_error + min_command;
-                }
-
-                // Adjust motors based on the steering adjust
-                left_command += steering_adjust;
-                right_command -= steering_adjust;
-                // Set slaves
-                driveSlaveRight.set(ControlMode.Follower, driveMasterRight.getDeviceID());
-                driveSlaveLeft.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
-
-                // Set masters and their power values, stop motors at certain distance
-                //do {
-                //d = (h1 - h2) / Math.tan(a + y);
-                driveMasterRight.set(ControlMode.PercentOutput, right_command);
-                driveMasterLeft.set(ControlMode.PercentOutput, left_command);
-                //} while(d < idealDistance);
-            }
+      if(button)  {
+        Double heading_error = -x;
+        Double steering_adjust = 0.075;
+        if (x > 1.0)
+        {
+                steering_adjust = Kp*heading_error - min_command;
         }
-
+        else if (x < 1.0)
+        {
+                steering_adjust = Kp*heading_error + min_command;
+        }
+  
+  
+        if (area > .25){
+          driving_adjust = KpDistance * area_error + min_command;
+        }
+        else if (area < .25){
+          driving_adjust = KpDistance * area_error - min_command;
+  
+        }
+  
+        if (v == 1){
+        driveMasterLeft.set(ControlMode.PercentOutput, steering_adjust - driving_adjust);
+        driveSlaveLeft.set(ControlMode.PercentOutput, steering_adjust - driving_adjust);
+  
+        driveMasterRight.set(ControlMode.PercentOutput, steering_adjust + driving_adjust);
+        driveSlaveRight.set(ControlMode.PercentOutput, steering_adjust + driving_adjust);
+  
+        }
+        else
+        {
+          driveMasterLeft.set(ControlMode.PercentOutput, 0);
+          driveSlaveLeft.set(ControlMode.PercentOutput, 0);
+    
+          driveMasterRight.set(ControlMode.PercentOutput, 0);
+          driveSlaveRight.set(ControlMode.PercentOutput, 0);
+        } 
     }
+    else {
+      driveMasterLeft.set(ControlMode.PercentOutput, 0);
+      driveSlaveLeft.set(ControlMode.PercentOutput, 0);
+
+      driveMasterRight.set(ControlMode.PercentOutput, 0);
+      driveSlaveRight.set(ControlMode.PercentOutput, 0);
+    }
+
+  }
 
 }
