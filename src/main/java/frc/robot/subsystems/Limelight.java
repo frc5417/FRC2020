@@ -8,9 +8,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import frc.robot.Constants;
 
 
-public class auton extends SubsystemBase {
+public class Limelight extends SubsystemBase {
 
     // Horizontal Offset variable
     double x;
@@ -53,7 +54,7 @@ public class auton extends SubsystemBase {
     double a;
     
 
-    public auton(){
+    public Limelight(){
 
     // Will need to change, values to calculate robot stopping distance from target
     h1 = 6;
@@ -68,17 +69,19 @@ public class auton extends SubsystemBase {
     SmartDashboard.putNumber("LimelightArea", area);
 
     // Assign motor ports to the motors
-    driveMasterRight = new TalonSRX(2);
-    driveMasterLeft = new TalonSRX(1);
-    driveSlaveRight = new VictorSPX(4);
-    driveSlaveLeft = new VictorSPX(3);
+    driveMasterRight = new TalonSRX(Constants.masterRightMotor);
+    driveMasterLeft = new TalonSRX(Constants.masterLeftMotor);
+    driveSlaveRight = new VictorSPX(Constants.slaveRightMotor);
+    driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
 
 
     }
 
+    // Allows horizontal offset to be a dynamic value
     public void setX(NetworkTableEntry tx){
         x = tx.getDouble(0.0);
     }
+    // Allows 
     public void setArea(NetworkTableEntry ta){
       area = ta.getDouble(0.0);
   
@@ -91,15 +94,20 @@ public class auton extends SubsystemBase {
     }
     // Program to allow the drivers to auto align based on the target
     public void autoAlign(boolean button){
-      Double Kp = 0.005;
+
+      // Constants used to calculate motor power for alignment
+      Double Kp = Constants.Kp;
       Double KpDistance = 0.075;
       Double area_error = 3 - area;
-      Double driving_adjust = 0.05;
-      Double min_command = 0.05;
+      Double driving_adjust = Constants.driving_adjust;
+      Double min_command = Constants.min_command;
 
-      if(button)  {
+      // Checks to see if button pressec
+      if(button) {
+        // Set heading error and the steering adjust
         Double heading_error = -x;
         Double steering_adjust = 0.075;
+        // Determine power based on the horizontal offset
         if (x > 1.0)
         {
                 steering_adjust = Kp*heading_error - min_command;
@@ -110,6 +118,7 @@ public class auton extends SubsystemBase {
         }
   
   
+        // Determine distance to stop based on area of image seen
         if (area > .25){
           driving_adjust = KpDistance * area_error + min_command;
         }
@@ -118,6 +127,7 @@ public class auton extends SubsystemBase {
   
         }
   
+        // Run motors if the target is seen
         if (v == 1){
         driveMasterLeft.set(ControlMode.PercentOutput, steering_adjust - driving_adjust);
         driveSlaveLeft.set(ControlMode.PercentOutput, steering_adjust - driving_adjust);

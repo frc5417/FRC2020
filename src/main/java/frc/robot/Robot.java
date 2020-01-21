@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.subsystems.auton;
+import frc.robot.subsystems.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
   NetworkTableEntry ta = table.getEntry("ta");
   NetworkTableEntry ts = table.getEntry("ts");
 
-  auton aut = new auton();
+  Limelight aut = new Limelight();
   Joystick pad = new Joystick(0);
 
   
