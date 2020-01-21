@@ -9,7 +9,8 @@ public class Constants {
     public static final double Kp = .005;
     public static final double min_command = .05;
     public static final double driving_adjust = .05;
-    public static final double driveTrain_width = 0.1016;
     public static final double ticksPerRev = 12.0; // Without Gear Reduction
-    public static final double maxVelocity = 9.0;
+    public static final double maxVelocity = 9.0; // meters per sec
+    public static final double wheelDiameter = 0.1016;
+    public static final double driveTrain_width = .4699;
 }
