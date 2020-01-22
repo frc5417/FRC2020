@@ -1,10 +1,12 @@
 --------------------------------------------------
-created on 1/21/2020 5:41pm
+created on 1/21/2020
+
+DOCUMENTATION - STEPS TO RECREATE PROGRAMMING THINGS
 --------------------------------------------------
 
 Person 1
 
-testing testing testing testing testing testing testing testing testing testing testing testing testing
+
 
 
 
