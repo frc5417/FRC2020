@@ -5,14 +5,15 @@ DOCUMENTATION - STEPS TO RECREATE PROGRAMMING THINGS
 --------------------------------------------------
 
 Person 1
+FRC WPILIB Files and Visual Studio Code
+Driver Station Download Link* - https://www.ni.com/en-us/support/downloads/drivers/download/packaged.frc-game-tools.333285.html
 
 
 
-
-
+* Download will start immediately
 
 --------------------
 
 Person 2
 
-What do I type. Please tell me what I need to type. I am confusion
+VS Code
