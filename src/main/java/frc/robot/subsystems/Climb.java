@@ -48,7 +48,7 @@ public class Climb {
     	testMotor.set(.5);  // sets speed of motor
     }
     if (joystick.getRawButtonReleased(2)) {
-      testMotor.set(0); // sets speed of motor to 0 
+      testMotor.close(); // sets speed of motor to 0 
     }
     
   }
