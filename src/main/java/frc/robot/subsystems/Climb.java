@@ -2,6 +2,21 @@ package frc.robot.subsystems;
 
 // climb code goes here
 
+/*
+1. Arm Starts lowered
+2. Press Button to switch solenoid (piston will be removed) so arm can be raised
+3. Turn motor so that ratchet starts spinning to lower arm (Holding down a button)
+*/
+
+// Reference example code for NEO Motor: https://github.com/REVrobotics/SPARK-MAX-Examples/blob/master/Java/Motor%20Follower/src/main/java/frc/robot/Robot.java
+// Reference for Solenoid: https://www.chiefdelphi.com/t/how-to-program-solenoid-and-compressor/101061/5
+// Reference for SparkMAX deviceID: http://www.revrobotics.com/sparkmax-users-manual/
+
+
+//This is the robot code for the CLIMBER
+
+//Importing Packages For Solenoid And Spark(Neo) Motors
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.revrobotics.CANSparkMax;
