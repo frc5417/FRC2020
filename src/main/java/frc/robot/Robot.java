@@ -15,6 +15,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -41,9 +42,12 @@ public class Robot extends TimedRobot {
   NetworkTableEntry ty = table.getEntry("ty");
   NetworkTableEntry ta = table.getEntry("ta");
   NetworkTableEntry ts = table.getEntry("ts");
+  NetworkTableEntry ledMode = table.getEntry("ledMode");
 
   Limelight aut = new Limelight();
   Joystick pad = new Joystick(0);
+  drive d = new drive();
+  Climb c = new Climb();
 
   
   @Override
@@ -64,9 +68,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     aut.setX(tx);
+    aut.setY(ty);
     aut.setArea(ta);
     aut.setV(tv);
-    aut.printX();
+    //aut.setY(ty);
+    //aut.printX();
   }
 
   /**
@@ -108,7 +114,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    aut.autoAlign(pad.getRawButton(1));
+    
+    if (pad.getRawButton(1)){
+      aut.autoAlign();
+      ledMode.setNumber(3);
+    }
+    else{
+      ledMode.setNumber(1);
+      d.SetPower(pad.getRawAxis(1), pad.getRawAxis(5));
+    }
+
+    c.run(pad.getRawButton(2));
   }
 
   /**

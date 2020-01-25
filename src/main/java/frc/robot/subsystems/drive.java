@@ -12,33 +12,41 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import frc.robot.Constants;
 /**
  * Add your docs here.
  */
 public class drive extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  /*
+  CANSparkMax driveSlaveL = new CANSparkMax(Constants.slaveLeftMotor, MotorType.kBrushless);
+  CANSparkMax driveMasterR = new CANSparkMax(Constants.masterRightMotor, MotorType.kBrushless);
+  CANSparkMax driveSlaveR = new CANSparkMax(Constants.slaveRightMotor, MotorType.kBrushless);
+  CANSparkMax driveMasterL = new CANSparkMax(Constants.masterLeftMotor, MotorType.kBrushless);
+  */
 
-  
-  TalonSRX driveMasterLeft = new TalonSRX(1);
-  TalonSRX driveSlaveLeft1 = new TalonSRX(2);
-  VictorSPX driveSlaveLeft2 = new VictorSPX(3);
-  TalonSRX driveMasterRight = new TalonSRX(4);
-  TalonSRX driveSlaveRight1 = new TalonSRX(5);
-  TalonSRX driveSlaveRight2 = new TalonSRX(6);
+  TalonSRX driveMasterRight = new TalonSRX(Constants.masterRightMotor);
+  TalonSRX driveMasterLeft = new TalonSRX(Constants.masterLeftMotor);
+  VictorSPX driveSlaveRight = new VictorSPX(Constants.slaveRightMotor);
+  VictorSPX driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
   
 
   public drive(){
-    /*
-    driveSlaveLeft1.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
-    driveSlaveLeft2.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
+  
 
-    driveSlaveRight1.set(ControlMode.Follower, driveMasterRight.getDeviceID());
-    driveSlaveRight2.set(ControlMode.Follower, driveMasterRight.getDeviceID());
 
     driveMasterRight.setNeutralMode(NeutralMode.Coast);
     driveMasterLeft.setNeutralMode(NeutralMode.Coast);
+    driveSlaveRight.setNeutralMode(NeutralMode.Coast);
+    driveSlaveLeft.setNeutralMode(NeutralMode.Coast);
+/*
+    driveSlaveL.follow(driveMasterL);
+    driveSlaveR.follow(driveMasterR);
     */
+    
   }
   @Override
   public void initDefaultCommand() {
@@ -48,7 +56,14 @@ public class drive extends Subsystem {
   }
 
   public void SetPower(double leftPower, double rightPower){
-    driveMasterLeft.set(ControlMode.PercentOutput, -leftPower);
-    driveMasterRight.set(ControlMode.PercentOutput, rightPower);
+    driveMasterLeft.set(ControlMode.PercentOutput, .5*leftPower);
+    driveMasterRight.set(ControlMode.PercentOutput, .5*-rightPower);
+    driveSlaveLeft.set(ControlMode.PercentOutput, .5*leftPower);
+    driveSlaveRight.set(ControlMode.PercentOutput, .5*-rightPower);
+
+    /*
+    driveMasterL.set(leftPower);
+    driveMasterR.set(-rightPower);
+    */
   }
 }

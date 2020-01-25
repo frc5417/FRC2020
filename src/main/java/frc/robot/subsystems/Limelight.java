@@ -6,7 +6,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants;
 
@@ -30,10 +30,10 @@ public class Limelight extends SubsystemBase {
     double right_command;
 
     // These are the motors on the robot
-    TalonSRX driveMasterLeft;
-    TalonSRX driveMasterRight;
-    VictorSPX driveSlaveLeft;
-    VictorSPX driveSlaveRight;
+    TalonSRX driveMasterRight = new TalonSRX(Constants.masterRightMotor);
+    TalonSRX driveMasterLeft = new TalonSRX(Constants.masterLeftMotor);
+    VictorSPX driveSlaveRight = new VictorSPX(Constants.slaveRightMotor);
+    VictorSPX driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
 
     // Whether target is visible or not
     double v;
@@ -53,6 +53,7 @@ public class Limelight extends SubsystemBase {
     // Angle of limelight
     double a;
     
+    
 
     public Limelight(){
 
@@ -69,10 +70,7 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("LimelightArea", area);
 
     // Assign motor ports to the motors
-    driveMasterRight = new TalonSRX(Constants.masterRightMotor);
-    driveMasterLeft = new TalonSRX(Constants.masterLeftMotor);
-    driveSlaveRight = new VictorSPX(Constants.slaveRightMotor);
-    driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
+
 
 
     }
@@ -80,6 +78,9 @@ public class Limelight extends SubsystemBase {
     // Allows horizontal offset to be a dynamic value
     public void setX(NetworkTableEntry tx){
         x = tx.getDouble(0.0);
+    }
+    public void setY(NetworkTableEntry ty){
+      y = ty.getDouble(0.0);
     }
     // Allows 
     public void setArea(NetworkTableEntry ta){
@@ -89,69 +90,101 @@ public class Limelight extends SubsystemBase {
     public void setV(NetworkTableEntry tv){
       v = tv.getDouble(0.0);
     }
+    public double getV(){
+      return v;
+    }
     public void printX(){
       System.out.println(x);
     }
+
     // Program to allow the drivers to auto align based on the target
-    public void autoAlign(boolean button){
+    public void autoAlign(){
 
       // Constants used to calculate motor power for alignment
-      Double Kp = Constants.Kp;
-      Double KpDistance = 0.075;
-      Double area_error = 3 - area;
-      Double driving_adjust = Constants.driving_adjust;
+      Double Kp = -Constants.Kp;
+      Double KpDistance = -.03;
+      //Double area_error = 3 - area;
+      Double distance_adjust = Constants.distance_adjust;
       Double min_command = Constants.min_command;
+      left_command = 0;
+      right_command = 0;
+
 
       // Checks to see if button pressec
-      if(button) {
+
+
+
         // Set heading error and the steering adjust
         Double heading_error = -x;
+        Double distance_error = -y;
         Double steering_adjust = 0.075;
         // Determine power based on the horizontal offset
         if (x > 1.0)
         {
                 steering_adjust = Kp*heading_error - min_command;
         }
-        else if (x < 1.0)
+        else if (x < -1.0)
         {
                 steering_adjust = Kp*heading_error + min_command;
         }
-  
+        
+        distance_adjust = KpDistance * distance_error;
+
+        left_command += -steering_adjust + distance_adjust;
+        right_command += distance_adjust + steering_adjust;
+        /*
+        if(left_command > .7)
+        {
+          left_command = .7;
+        }
+        else if (left_command < -.7)
+        {
+          left_command = -.7;
+        }
+        if(right_command > .7)
+        {
+          right_command = .7;
+        }
+        else if (right_command < -.7)
+        {
+          right_command = -.7;
+        }
+        */
+
+        //System.out.println(v);
   
         // Determine distance to stop based on area of image seen
-        if (area > .25){
+        /*if (area > .25){
           driving_adjust = KpDistance * area_error + min_command;
         }
         else if (area < .25){
           driving_adjust = KpDistance * area_error - min_command;
   
-        }
+        }*/
   
-        // Run motors if the target is seen
+        // Run motors if the target is seen 
         if (v == 1){
-        driveMasterLeft.set(ControlMode.PercentOutput, steering_adjust - driving_adjust);
-        driveSlaveLeft.set(ControlMode.PercentOutput, steering_adjust - driving_adjust);
+          driveMasterLeft.set(ControlMode.PercentOutput, left_command);
+          System.out.println("motor 1 running " + left_command);
+          driveSlaveLeft.set(ControlMode.PercentOutput, left_command);
+          System.out.println("motor 2 running " + left_command);
   
-        driveMasterRight.set(ControlMode.PercentOutput, steering_adjust + driving_adjust);
-        driveSlaveRight.set(ControlMode.PercentOutput, steering_adjust + driving_adjust);
+          driveMasterRight.set(ControlMode.PercentOutput, -right_command);
+          System.out.println("motor 3 running " + -right_command);
+          driveSlaveRight.set(ControlMode.PercentOutput, -right_command);
+          System.out.println("motor 4 running " + -right_command);
   
         }
         else
         {
+
           driveMasterLeft.set(ControlMode.PercentOutput, 0);
           driveSlaveLeft.set(ControlMode.PercentOutput, 0);
     
           driveMasterRight.set(ControlMode.PercentOutput, 0);
           driveSlaveRight.set(ControlMode.PercentOutput, 0);
         } 
-    }
-    else {
-      driveMasterLeft.set(ControlMode.PercentOutput, 0);
-      driveSlaveLeft.set(ControlMode.PercentOutput, 0);
 
-      driveMasterRight.set(ControlMode.PercentOutput, 0);
-      driveSlaveRight.set(ControlMode.PercentOutput, 0);
-    }
 
   }
 
