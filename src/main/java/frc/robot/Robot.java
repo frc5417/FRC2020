@@ -15,6 +15,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Intake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot {
   NetworkTableEntry ts = table.getEntry("ts");
 
   Limelight aut = new Limelight();
+  Intake intake = new Intake();
   Joystick pad = new Joystick(0);
 
   
@@ -109,6 +111,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     aut.autoAlign(pad.getRawButton(1));
+    intake.runIntakeSystem(pad.getRawButtonPressed(3)); //check this to make sure its the right button
+    intake.runIntakeSystemBackwards(pad.getRawButtonPressed(4)); //check this to make sure its the right button
+
   }
 
   /**
