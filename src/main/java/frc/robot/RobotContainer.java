@@ -13,15 +13,17 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.*;
 import java.util.List;
+import edu.wpi.first.wpilibj.kinematics.*;
 
 public class RobotContainer{
 
-public Command getAutonomousCommand(){
-    TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.maxVelocity, 3).setKinematics(Constants.kinematics);
+    TrajectoryFollowing pathfollower = new TrajectoryFollowing();
 
-        Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 1), new Translation2d(1, 2)), new Pose2d(3, 0, new Rotation2d(0)), trajectoryConfig);
+public Command getAutonomousCommand(){
         
-        RamseteCommand ramseteCommand = new RamseteCommand(traj, pose, new RamseteController(2, 0.7), new SimpleMotorFeedforward(Constants.kVolts, Constants.kVSPM, Constants.kVSSPM), kinematics, getSpeeds(), new PIDController(Constants.kPDriveVelocity, 0, 0), new PIDController(Constants.kPDriveVelocity, 0, 0), //add ref to differential drive object in trajectoryfollowing);
+        RamseteCommand ramseteCommand = new RamseteCommand(pathfollower.getTraj(), pathfollower::getPose, new RamseteController(2, 0.7), new SimpleMotorFeedforward(Constants.kVolts, Constants.kVSPM, Constants.kVSSPM), pathfollower.getKinematics(), pathfollower::getSpeeds, new PIDController(Constants.kPDriveVelocity, 0, 0), new PIDController(Constants.kPDriveVelocity, 0, 0), pathfollower::tankDriveVolts, pathfollower);//add ref to differential drive object in trajectoryfollowing);
+
+        return ramseteCommand.andThen(() -> pathfollower.tankDriveVolts(0, 0));
     }
 
 }

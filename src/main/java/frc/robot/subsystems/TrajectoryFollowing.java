@@ -35,6 +35,8 @@ public class TrajectoryFollowing extends SubsystemBase{
     DifferentialDriveOdometry odometry;
     Pose2d pose;
 
+    Trajectory traj;
+
     public TrajectoryFollowing() {
         
         driveMasterRight = new TalonSRX(Constants.masterRightMotor);
@@ -45,10 +47,8 @@ public class TrajectoryFollowing extends SubsystemBase{
         gyro = new AHRS(Port.kMXP);
 
         kinematics = new DifferentialDriveKinematics(Constants.driveTrain_width);
-        odometry = new DifferentialDriveOdometry(getHeading(), pose); //try with and without pose as argument
+        odometry = new DifferentialDriveOdometry(getHeading()/*, pose*/); //try with and without pose as argument
         pose = new Pose2d();
-
-        TrajectoryFollowing thisTraj = new TrajectoryFollowing();
 
 
         driveSlaveLeft.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
@@ -59,7 +59,7 @@ public class TrajectoryFollowing extends SubsystemBase{
 
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.maxVelocity, 3).setKinematics(kinematics);
 
-        Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 1), new Translation2d(1, 2)), new Pose2d(3, 0, new Rotation2d(0)), trajectoryConfig);
+        traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 1), new Translation2d(1, 2)), new Pose2d(3, 0, new Rotation2d(0)), trajectoryConfig);
         
         //RamseteCommand ramseteCommand = new RamseteCommand(traj, pose, new RamseteController(2, 0.7), new SimpleMotorFeedforward(Constants.kVolts, Constants.kVSPM, Constants.kVSSPM), kinematics, getSpeeds(), new PIDController(Constants.kPDriveVelocity, 0, 0), new PIDController(Constants.kPDriveVelocity, 0, 0), thisTraj::tankDriveVolts, thisTraj::);
     }
@@ -97,6 +97,10 @@ public class TrajectoryFollowing extends SubsystemBase{
 
     public Pose2d getPose(){
         return this.pose;
+    }
+
+    public Trajectory getTraj(){
+        return traj;
     }
 
 }

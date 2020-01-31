@@ -15,7 +15,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.Limelight;
-
+import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
 
 
@@ -46,12 +48,13 @@ public class Robot extends TimedRobot {
   NetworkTableEntry ts = table.getEntry("ts");
   NetworkTableEntry ledMode = table.getEntry("ledMode");
 
-  Limelight aut = new Limelight();
-  Intake intake = new Intake();
+  Limelight l = new Limelight();
   Joystick pad = new Joystick(0);
   drive d = new drive();
   Climb c = new Climb();
   Intake i = new Intake();
+  RobotContainer r = new RobotContainer();
+  Command a;
 
   
   @Override
@@ -71,12 +74,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    aut.setX(tx);
-    aut.setY(ty);
-    aut.setArea(ta);
-    aut.setV(tv);
+    l.setX(tx);
+    l.setY(ty);
+    l.setArea(ta);
+    l.setV(tv);
     //aut.setY(ty);
     //aut.printX();
+    CommandScheduler.getInstance().run();
   }
 
   /**
@@ -92,9 +96,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    a = r.getAutonomousCommand();
+    if (a != null) {
+      a.schedule();
+    }
+
   }
 
   /**
@@ -120,7 +126,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     
     if (pad.getRawButton(1)){
-      aut.autoAlign();
+      l.autoAlign();
       ledMode.setNumber(3);
     }
     else{
