@@ -48,13 +48,13 @@ public class Robot extends TimedRobot {
   NetworkTableEntry ts = table.getEntry("ts");
   NetworkTableEntry ledMode = table.getEntry("ledMode");
 
-  Limelight l = new Limelight();
-  Joystick pad = new Joystick(0);
-  drive d = new drive();
-  Climb c = new Climb();
-  Intake i = new Intake();
-  RobotContainer r = new RobotContainer();
-  Command a;
+  public static Limelight l = new Limelight();
+  public static Joystick pad = new Joystick(0);
+  public static Drive d = new Drive();
+  public static Climb c = new Climb();
+  public static Intake i = new Intake();
+  public static RobotContainer r = new RobotContainer();
+  public static Command a;
 
   
   @Override
@@ -131,7 +131,7 @@ public class Robot extends TimedRobot {
     }
     else{
       ledMode.setNumber(1);
-      d.SetPower(pad.getRawAxis(1), pad.getRawAxis(5));
+      //d.SetPower(pad.getRawAxis(1), pad.getRawAxis(5));
 
     i.runInternalBelt(pad.getRawButtonPressed(3)); 
     i.runFeeder(pad.getRawButtonPressed(3)); //check this to make sure its the right button

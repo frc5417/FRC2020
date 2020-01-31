@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -19,7 +19,7 @@ import frc.robot.Constants;
 /**
  * Add your docs here.
  */
-public class drive extends Subsystem {
+public class Drive extends SubsystemBase {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   /*
@@ -35,7 +35,7 @@ public class drive extends Subsystem {
   VictorSPX driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
   
 
-  public drive(){
+  public Drive(){
   
 
 
@@ -49,12 +49,15 @@ public class drive extends Subsystem {
     */
     
   }
+  /*
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    Drive.setDefaultCommand(new TankDrive());
 
   }
+  */
 
   public void SetPower(double leftPower, double rightPower){
     driveMasterLeft.set(ControlMode.PercentOutput, .5*leftPower);
