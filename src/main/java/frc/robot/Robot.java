@@ -15,7 +15,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.Limelight;
+
 import frc.robot.subsystems.*;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -45,6 +47,7 @@ public class Robot extends TimedRobot {
   NetworkTableEntry ledMode = table.getEntry("ledMode");
 
   Limelight aut = new Limelight();
+  Intake intake = new Intake();
   Joystick pad = new Joystick(0);
   drive d = new drive();
   Climb c = new Climb();
@@ -125,10 +128,11 @@ public class Robot extends TimedRobot {
       d.SetPower(pad.getRawAxis(1), pad.getRawAxis(5));
 
     i.runInternalBelt(pad.getRawButtonPressed(3)); 
-    i.runFeederBelt(pad.getRawButtonPressed(3)); //check this to make sure its the right button
+    i.runFeeder(pad.getRawButtonPressed(3)); //check this to make sure its the right button
     i.runInternalBeltBackwards(pad.getRawButtonPressed(4));
-    i.runFeederBeltBackwards(pad.getRawButtonPressed(4)); //check this to make sure its the right button
+    i.runFeederBackwards(pad.getRawButtonPressed(4)); //check this to make sure its the right button
     }
+
 
 
   }

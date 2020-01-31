@@ -27,13 +27,13 @@ public class Intake extends SubsystemBase {
     double feederSpeed = .3;
 
     WPI_VictorSPX rollerBar = new WPI_VictorSPX(0);//rollerbar               //ask build which ports theyll use
-    WPI_VictorSPX internalBelt = new WPI_VictorSPX(11);//internal belt thing
-    WPI_VictorSPX feederBelt = new WPI_VictorSPX(4);//the one that puts it in the shooter
+    WPI_VictorSPX internalBelt = new WPI_VictorSPX(0);//internal belt thing
+    WPI_VictorSPX feeder = new WPI_VictorSPX(0);//the one that puts it in the shooter
     
     public Intake(){
       rollerBar.setNeutralMode(NeutralMode.Coast);
       internalBelt.setNeutralMode(NeutralMode.Coast);
-      feederBelt.setNeutralMode(NeutralMode.Coast);
+      feeder.setNeutralMode(NeutralMode.Coast);
     }
     
     // Use Victor.follow() for master/slave stuff}
@@ -42,7 +42,7 @@ public class Intake extends SubsystemBase {
     //turns off all intake motors
     rollerBar.set(ControlMode.PercentOutput,0);
     internalBelt.set(ControlMode.PercentOutput,0);
-    feederBelt.set(ControlMode.PercentOutput,0);
+    feeder.set(ControlMode.PercentOutput,0);
   }
   public void setIntakeSpeed(double speed){ //probably won't be useful mid match but whatever
       intakeSpeed = speed;
@@ -97,18 +97,19 @@ public class Intake extends SubsystemBase {
     }
   }
 
-  public void runFeederBelt(boolean button){
+  public void runFeeder(boolean button){
        if(button){
-           feederBelt.set(feederSpeed);
+           feeder.set(feederSpeed);
        }else{
-         feederBelt.setNeutralMode(NeutralMode.Brake);
+         feeder.setNeutralMode(NeutralMode.Brake);
        }
    }
-   public void runFeederBeltBackwards(boolean button){
+
+   public void runFeederBackwards(boolean button){
     if(button){
-        feederBelt.set(-feederSpeed);
+      feeder.set(-feederSpeed);
     }else{
-      feederBelt.setNeutralMode(NeutralMode.Brake);
+      feeder.setNeutralMode(NeutralMode.Brake);
     }
-}
+   }
 }
