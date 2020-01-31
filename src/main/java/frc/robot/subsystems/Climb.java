@@ -18,53 +18,73 @@ package frc.robot.subsystems;
 
 //Importing Packages For Solenoid And Spark(Neo) Motors
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.Constants;
 
 
-public class Climb {
+public class Climb extends SubsystemBase {
     
   	//Initializes Solenoids and compressor pistons
-  	Solenoid climbPiston = new Solenoid(0);
-  	Compressor airCompressor = new Compressor();
-  
-  	Joystick joystick = new Joystick(0);
-  
+    Solenoid climbPistonR = new Solenoid(0);
+    Solenoid climbPistonL = new Solenoid(1);
 
-    public CANSparkMax testMotor1;
-  	public CANSparkMax testMotor2;
+    CANSparkMax motorR = new CANSparkMax(Constants.masterClimb, MotorType.kBrushless);
+    CANSparkMax motorL = new CANSparkMax(Constants.slaveClimb, MotorType.kBrushless);
 
-	
-  
-    //Method For Switching Solenoid
-    public void solenoidSwitch(){
-          if(joystick.getRawButton(6)){
-          climbPiston.set(true);
-        }
+    int toggle;
+    int count;
+
+    public Climb(){
+      motorR.setInverted(true);
+      motorL.setInverted(true);
+      toggle = 0;
+      count = 0;
+
+    }
+
+    public void extend(boolean button)
+    {
+      if(button){
+        count+=1;
+      }
+
+      switch(count){
+        case 0:
+          toggle = 0;
+          break;
+        case 1:
+          toggle = 1;
+          break;
+        case 2:
+          toggle = 0;
+          count = 0;
+          break;
+      }
       
+      switch(toggle){
+        case 0:
+          climbPistonL.set(false);
+          climbPistonR.set(false);
+          break;
+        case 1:
+          climbPistonL.set(true);
+          climbPistonR.set(true);
+          break;
+      }
+
     }
-  
-  public void testMotor(){
-    CANSparkMax motorLeft = new CANSparkMax(0, MotorType.kBrushless);     // 0 is the default deviceID, but it should be changed through the Windows SparkMax client
-    CANSparkMax motorRight = new CANSparkMax(1, MotorType.kBrushless);
-    
-    if(joystick.getRawButtonPressed(4)){
-    	motorLeft.set(5);  // sets speed of motor
+
+    public void latch(double power)
+    {
+        motorR.set(power);
+        motorL.follow(motorR);     
+
     }
-    if (joystick.getRawButtonReleased(4)) {
-      motorLeft.close(); // sets speed of motor to 0 ? 
-    }
-    
-    if(joystick.getRawButtonPressed(5)){
-    	motorRight.set(5);  // sets speed of motor
-    }
-    if (joystick.getRawButtonReleased(5)) {
-      motorRight.close(); // sets speed of motor to 0 ? 
-    }
-    
-  }
+
+
 
 }
