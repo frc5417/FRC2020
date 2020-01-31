@@ -44,6 +44,7 @@ public class Intake extends SubsystemBase {
     internalBelt.set(ControlMode.PercentOutput,0);
     feeder.set(ControlMode.PercentOutput,0);
   }
+
   public void setIntakeSpeed(double speed){ //probably won't be useful mid match but whatever
       intakeSpeed = speed;
   }
@@ -111,5 +112,5 @@ public class Intake extends SubsystemBase {
     }else{
       feeder.setNeutralMode(NeutralMode.Brake);
     }
-   }
+  }
 }
