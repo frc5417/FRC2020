@@ -124,9 +124,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    
+    /*
     if (pad.getRawButton(1)){
-      l.autoAlign();
+      
       ledMode.setNumber(3);
     }
     else{
@@ -138,6 +138,7 @@ public class Robot extends TimedRobot {
     i.runInternalBeltBackwards(pad.getRawButtonPressed(4));
     i.runFeederBackwards(pad.getRawButtonPressed(4)); //check this to make sure its the right button
     }
+    */
 
 
 

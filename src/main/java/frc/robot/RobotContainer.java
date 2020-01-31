@@ -38,6 +38,9 @@ public class RobotContainer{
     public double rightSpeed(){
         return pad.getRawAxis(5);
     }
+    public boolean aButton(){
+        return pad.getRawButton(1);
+    }
 
 }
 

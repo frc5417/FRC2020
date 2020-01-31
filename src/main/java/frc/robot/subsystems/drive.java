@@ -60,10 +60,18 @@ public class Drive extends SubsystemBase {
   */
 
   public void SetPower(double leftPower, double rightPower){
+    if (!((leftPower < .1)&&(leftPower > -.1) && (rightPower < .1)&&(rightPower > -.1))){
     driveMasterLeft.set(ControlMode.PercentOutput, .5*leftPower);
     driveMasterRight.set(ControlMode.PercentOutput, .5*-rightPower);
     driveSlaveLeft.set(ControlMode.PercentOutput, .5*leftPower);
     driveSlaveRight.set(ControlMode.PercentOutput, .5*-rightPower);
+    }
+    else{
+      driveMasterLeft.set(ControlMode.PercentOutput, 0);
+      driveMasterRight.set(ControlMode.PercentOutput, 0);
+      driveSlaveLeft.set(ControlMode.PercentOutput, 0);
+      driveSlaveRight.set(ControlMode.PercentOutput, 0);
+    }
 
     /*
     driveMasterL.set(leftPower);
