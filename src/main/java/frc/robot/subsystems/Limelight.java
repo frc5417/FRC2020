@@ -102,7 +102,7 @@ public class Limelight extends SubsystemBase {
 
       // Constants used to calculate motor power for alignment
       Double Kp = -Constants.Kp;
-      Double KpDistance = -.03;
+      Double KpDistance = -.01;
       //Double area_error = 3 - area;
       Double distance_adjust = Constants.distance_adjust;
       Double min_command = Constants.min_command;
@@ -132,26 +132,6 @@ public class Limelight extends SubsystemBase {
 
         left_command += -steering_adjust + distance_adjust;
         right_command += distance_adjust + steering_adjust;
-        /*
-        if(left_command > .7)
-        {
-          left_command = .7;
-        }
-        else if (left_command < -.7)
-        {
-          left_command = -.7;
-        }
-        if(right_command > .7)
-        {
-          right_command = .7;
-        }
-        else if (right_command < -.7)
-        {
-          right_command = -.7;
-        }
-        */
-
-        //System.out.println(v);
   
         // Determine distance to stop based on area of image seen
         /*if (area > .25){
@@ -164,24 +144,20 @@ public class Limelight extends SubsystemBase {
   
         // Run motors if the target is seen 
         if (v == 1){
+
           driveMasterLeft.set(ControlMode.PercentOutput, left_command);
-          System.out.println("motor 1 running " + left_command);
-          driveSlaveLeft.set(ControlMode.PercentOutput, left_command);
-          System.out.println("motor 2 running " + left_command);
   
           driveMasterRight.set(ControlMode.PercentOutput, -right_command);
-          System.out.println("motor 3 running " + -right_command);
+
+          driveSlaveLeft.set(ControlMode.PercentOutput, left_command);
           driveSlaveRight.set(ControlMode.PercentOutput, -right_command);
-          System.out.println("motor 4 running " + -right_command);
   
         }
         else
         {
-
           driveMasterLeft.set(ControlMode.PercentOutput, 0);
-          driveSlaveLeft.set(ControlMode.PercentOutput, 0);
-    
           driveMasterRight.set(ControlMode.PercentOutput, 0);
+          driveSlaveLeft.set(ControlMode.PercentOutput, 0);
           driveSlaveRight.set(ControlMode.PercentOutput, 0);
         } 
 

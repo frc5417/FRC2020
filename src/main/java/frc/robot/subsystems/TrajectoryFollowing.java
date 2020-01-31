@@ -2,14 +2,26 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.kinematics.*;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
+//import jaci.pathfinder.Trajectory;
+import edu.wpi.first.wpilibj.geometry.*;
 import java.lang.Math;
+import edu.wpi.first.wpilibj2.command.Command;
+import java.util.List;
+
 
 public class TrajectoryFollowing extends SubsystemBase{
     TalonSRX driveMasterLeft;
@@ -21,6 +33,7 @@ public class TrajectoryFollowing extends SubsystemBase{
 
     DifferentialDriveKinematics kinematics;
     DifferentialDriveOdometry odometry;
+    Pose2d pose;
 
     public TrajectoryFollowing() {
         
@@ -32,7 +45,10 @@ public class TrajectoryFollowing extends SubsystemBase{
         gyro = new AHRS(Port.kMXP);
 
         kinematics = new DifferentialDriveKinematics(Constants.driveTrain_width);
-        odometry = new DifferentialDriveOdometry(getHeading());
+        odometry = new DifferentialDriveOdometry(getHeading(), pose); //try with and without pose as argument
+        pose = new Pose2d();
+
+        TrajectoryFollowing thisTraj = new TrajectoryFollowing();
 
 
         driveSlaveLeft.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
@@ -40,7 +56,16 @@ public class TrajectoryFollowing extends SubsystemBase{
 
         driveMasterRight.setInverted(false);
         driveMasterLeft.setInverted(true);
+
+        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.maxVelocity, 3).setKinematics(kinematics);
+
+        Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 1), new Translation2d(1, 2)), new Pose2d(3, 0, new Rotation2d(0)), trajectoryConfig);
         
+        //RamseteCommand ramseteCommand = new RamseteCommand(traj, pose, new RamseteController(2, 0.7), new SimpleMotorFeedforward(Constants.kVolts, Constants.kVSPM, Constants.kVSSPM), kinematics, getSpeeds(), new PIDController(Constants.kPDriveVelocity, 0, 0), new PIDController(Constants.kPDriveVelocity, 0, 0), thisTraj::tankDriveVolts, thisTraj::);
+    }
+
+    public void trajectory(){
+
     }
 
     public Rotation2d getHeading(){
@@ -54,6 +79,24 @@ public class TrajectoryFollowing extends SubsystemBase{
 
     @Override
     public void periodic(){
-        odometry.update(getHeading(), getSpeeds().leftMetersPerSecond, getSpeeds().rightMetersPerSecond);
+        pose = odometry.update(getHeading(), getSpeeds().leftMetersPerSecond, getSpeeds().rightMetersPerSecond);
     }
+
+    public void tankDriveVolts(double leftVolts, double rightVolts){
+        driveMasterLeft.set(ControlMode.PercentOutput, leftVolts / Constants.maxVolts);
+        driveMasterRight.set(ControlMode.PercentOutput, rightVolts / Constants.maxVolts);
+    }
+
+    public DifferentialDriveKinematics getKinematics(){
+        return this.kinematics;
+    }
+
+    public DifferentialDriveOdometry getOdometry(){
+        return this.odometry;
+    }
+
+    public Pose2d getPose(){
+        return this.pose;
+    }
+
 }

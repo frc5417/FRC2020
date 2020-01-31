@@ -48,6 +48,7 @@ public class Robot extends TimedRobot {
   Joystick pad = new Joystick(0);
   drive d = new drive();
   Climb c = new Climb();
+  Intake i = new Intake();
 
   
   @Override
@@ -122,9 +123,14 @@ public class Robot extends TimedRobot {
     else{
       ledMode.setNumber(1);
       d.SetPower(pad.getRawAxis(1), pad.getRawAxis(5));
+
+    i.runInternalBelt(pad.getRawButtonPressed(3)); 
+    i.runFeederBelt(pad.getRawButtonPressed(3)); //check this to make sure its the right button
+    i.runInternalBeltBackwards(pad.getRawButtonPressed(4));
+    i.runFeederBeltBackwards(pad.getRawButtonPressed(4)); //check this to make sure its the right button
     }
 
-    c.run(pad.getRawButton(2));
+
   }
 
   /**
