@@ -19,6 +19,7 @@ import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 
 /**
@@ -40,13 +41,13 @@ public class Robot extends TimedRobot {
    */
 
 
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  NetworkTableEntry tv = table.getEntry("tv");
-  NetworkTableEntry tx = table.getEntry("tx");
-  NetworkTableEntry ty = table.getEntry("ty");
-  NetworkTableEntry ta = table.getEntry("ta");
-  NetworkTableEntry ts = table.getEntry("ts");
-  NetworkTableEntry ledMode = table.getEntry("ledMode");
+  public NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  public NetworkTableEntry tv = table.getEntry("tv");
+  public NetworkTableEntry tx = table.getEntry("tx");
+  public NetworkTableEntry ty = table.getEntry("ty");
+  public NetworkTableEntry ta = table.getEntry("ta");
+  public NetworkTableEntry ts = table.getEntry("ts");
+  public NetworkTableEntry ledMode = table.getEntry("ledMode");
 
   public static Limelight l = new Limelight();
   public static Joystick pad = new Joystick(0);
@@ -55,6 +56,11 @@ public class Robot extends TimedRobot {
   public static Intake i = new Intake();
   public static RobotContainer r = new RobotContainer();
   public static Command a;
+  public static Command align = new AutoAlign(l);
+  public static Command drive = new TankDrive(d);
+  public static Command intakeF = new RunIntakeForward(i);
+  public static Command intakeB = new RunIntakeBackwards(i);
+  public static Command climb = new ClimbExtendLatch(c);
 
   
   @Override
@@ -80,7 +86,7 @@ public class Robot extends TimedRobot {
     l.setV(tv);
     //aut.setY(ty);
     //aut.printX();
-    CommandScheduler.getInstance().run();
+
   }
 
   /**
@@ -124,15 +130,25 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    /*
+    drive.schedule();
+    //align.schedule();
+    climb.schedule();
+    d.setDefaultCommand(drive);
+    r.aPad.whileHeld(align);
+    r.xPad.whileHeld(intakeF);
+    r.yPad.whileHeld(intakeB);
+    CommandScheduler.getInstance().run();
+    
+    
     if (pad.getRawButton(1)){
       
       ledMode.setNumber(3);
     }
     else{
       ledMode.setNumber(1);
-      //d.SetPower(pad.getRawAxis(1), pad.getRawAxis(5));
+    }
 
+    /*
     i.runInternalBelt(pad.getRawButtonPressed(3)); 
     i.runFeeder(pad.getRawButtonPressed(3)); //check this to make sure its the right button
     i.runInternalBeltBackwards(pad.getRawButtonPressed(4));
@@ -149,5 +165,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 }

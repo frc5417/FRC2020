@@ -52,6 +52,8 @@ public class Limelight extends SubsystemBase {
     
     // Angle of limelight
     double a;
+
+    double led;
     
     
 
@@ -93,16 +95,18 @@ public class Limelight extends SubsystemBase {
     public double getV(){
       return v;
     }
+
+
     public void printX(){
       System.out.println(x);
     }
 
     // Program to allow the drivers to auto align based on the target
-    public void autoAlign(boolean button){
+    public void autoAlign(){
 
       // Constants used to calculate motor power for alignment
       Double Kp = -Constants.Kp;
-      Double KpDistance = -.01;
+      Double KpDistance = -.02;
       //Double area_error = 3 - area;
       Double distance_adjust = Constants.distance_adjust;
       Double min_command = Constants.min_command;
@@ -112,7 +116,7 @@ public class Limelight extends SubsystemBase {
 
       // Checks to see if button pressec
 
-  if(button){
+
 
         // Set heading error and the steering adjust
         Double heading_error = -x;
@@ -160,16 +164,10 @@ public class Limelight extends SubsystemBase {
           driveSlaveLeft.set(ControlMode.PercentOutput, 0);
           driveSlaveRight.set(ControlMode.PercentOutput, 0);
         }
-      }
-      else{
-        driveMasterLeft.set(ControlMode.PercentOutput, 0);
-        driveMasterRight.set(ControlMode.PercentOutput, 0);
-        driveSlaveLeft.set(ControlMode.PercentOutput, 0);
-        driveSlaveRight.set(ControlMode.PercentOutput, 0);
-      } 
+    }
 
 
-  }
+    }
 
-}
+
 // atiksh is dumb/test

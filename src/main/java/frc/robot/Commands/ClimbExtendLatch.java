@@ -5,6 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+
 package frc.robot.commands;
 
 import frc.robot.subsystems.*;
@@ -13,9 +14,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimbExtendLatch extends CommandBase {
   private final Climb c;
-  /**
+  /*
    * Creates a new ClimbExtendLatch.
-   */
+   */ 
+   
   public ClimbExtendLatch(Climb subsystem) {
     c = subsystem;
     addRequirements(c);
@@ -31,7 +33,7 @@ public class ClimbExtendLatch extends CommandBase {
   @Override
   public void execute() {
     Robot.c.extend(Robot.r.bButton());
-    Robot.c.latch(Robot.r.climbPower());
+    Robot.c.latch(Robot.r.climbLPower(), Robot.r.climbRPower());
   }
 
   // Called once the command ends or is interrupted.
@@ -45,3 +47,4 @@ public class ClimbExtendLatch extends CommandBase {
     return false;
   }
 }
+

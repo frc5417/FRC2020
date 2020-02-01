@@ -49,22 +49,15 @@ public class Drive extends SubsystemBase {
     */
     
   }
-  /*
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-    Drive.setDefaultCommand(new TankDrive());
-
-  }
-  */
+  
 
   public void SetPower(double leftPower, double rightPower){
-    if (!((leftPower < .1)&&(leftPower > -.1) && (rightPower < .1)&&(rightPower > -.1))){
-    driveMasterLeft.set(ControlMode.PercentOutput, .5*leftPower);
-    driveMasterRight.set(ControlMode.PercentOutput, .5*-rightPower);
-    driveSlaveLeft.set(ControlMode.PercentOutput, .5*leftPower);
-    driveSlaveRight.set(ControlMode.PercentOutput, .5*-rightPower);
+    //if (!((leftPower < .1)&&(leftPower > -.1) || (rightPower < .1)&&(rightPower > -.1))){
+    driveMasterLeft.set(ControlMode.PercentOutput, leftPower);
+    driveMasterRight.set(ControlMode.PercentOutput, -rightPower);
+    driveSlaveLeft.set(ControlMode.PercentOutput, leftPower);
+    driveSlaveRight.set(ControlMode.PercentOutput, -rightPower);
+    /*
     }
     else{
       driveMasterLeft.set(ControlMode.PercentOutput, 0);
@@ -72,6 +65,7 @@ public class Drive extends SubsystemBase {
       driveSlaveLeft.set(ControlMode.PercentOutput, 0);
       driveSlaveRight.set(ControlMode.PercentOutput, 0);
     }
+    
 
     /*
     driveMasterL.set(leftPower);

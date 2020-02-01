@@ -13,17 +13,27 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.*;
 import java.util.List;
-import edu.wpi.first.wpilibj.kinematics.*;
-import edu.wpi.first.wpilibj.Joystick; 
+import edu.wpi.first.wpilibj.kinematics.*; 
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.commands.*;
+import frc.robot.Robot;
 
 public class RobotContainer{
 
-    TrajectoryFollowing pathfollower;
-    Joystick pad;
+    public TrajectoryFollowing pathfollower;
+    public Joystick pad;
+    public JoystickButton aPad;
+    public JoystickButton xPad;
+    public JoystickButton yPad;
 
     public RobotContainer(){
         pathfollower = new TrajectoryFollowing();
         pad = new Joystick(0);
+        aPad = new JoystickButton(pad, 1);
+        xPad = new JoystickButton(pad, 4);
+        yPad = new JoystickButton(pad, 3);
+
     }
 
     public Command getAutonomousCommand(){
@@ -32,17 +42,20 @@ public class RobotContainer{
 
         return ramseteCommand.andThen(() -> pathfollower.tankDriveVolts(0, 0));
     }
+
+
+
     public double leftSpeed(){
         return pad.getRawAxis(1);
     }
     public double rightSpeed(){
         return pad.getRawAxis(5);
     }
-    public double climbPower(){
+    public double climbRPower(){
         return pad.getRawAxis(3);
     }
-    public boolean aButton(){
-        return pad.getRawButton(1);
+    public double climbLPower(){
+        return pad.getRawAxis(2);
     }
     public boolean bButton(){
         return pad.getRawButton(2);

@@ -10,8 +10,8 @@ public class Constants {
     public static final int slaveClimb = 5;
     public static final int masterClimb = 6;
 
-    public static final double Kp = .02;
-    public static final double min_command = .05;
+    public static final double Kp = .04;
+    public static final double min_command = .1;
     public static final double distance_adjust = .05;
     public static final double ticksPerRev = 12.0; // Without Gear Reduction
     public static final double maxVelocity = 9.0; // meters per sec
