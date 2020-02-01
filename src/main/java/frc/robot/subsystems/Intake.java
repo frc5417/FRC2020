@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 
@@ -26,9 +27,9 @@ public class Intake extends SubsystemBase {
     double intakeSpeed = .5;
     double feederSpeed = .3;
 
-    WPI_VictorSPX rollerBar = new WPI_VictorSPX(0);//rollerbar               //ask build which ports theyll use
-    WPI_VictorSPX internalBelt = new WPI_VictorSPX(0);//internal belt thing
-    WPI_VictorSPX feeder = new WPI_VictorSPX(0);//the one that puts it in the shooter
+    WPI_VictorSPX rollerBar = new WPI_VictorSPX(Constants.intakeMotor1);//rollerbar               //ask build which ports theyll use
+    WPI_VictorSPX internalBelt = new WPI_VictorSPX(Constants.intakeMotor2);//internal belt thing
+    WPI_VictorSPX feeder = new WPI_VictorSPX(Constants.intakeMotor3);//the one that puts it in the shooter
     
     public Intake(){
       rollerBar.setNeutralMode(NeutralMode.Coast);

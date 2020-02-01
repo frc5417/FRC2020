@@ -34,8 +34,8 @@ public class Climb extends SubsystemBase {
     Solenoid climbPistonR = new Solenoid(0);
     Solenoid climbPistonL = new Solenoid(1);
 
-    CANSparkMax motorR = new CANSparkMax(Constants.masterClimb, MotorType.kBrushless);
-    CANSparkMax motorL = new CANSparkMax(Constants.slaveClimb, MotorType.kBrushless);
+    CANSparkMax motorR = new CANSparkMax(Constants.RClimb, MotorType.kBrushless);
+    CANSparkMax motorL = new CANSparkMax(Constants.LClimb, MotorType.kBrushless);
 
     int toggle;
     int count;

@@ -102,10 +102,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+
     a = r.getAutonomousCommand();
     if (a != null) {
       a.schedule();
     }
+
 
   }
 
@@ -114,15 +116,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+    CommandScheduler.getInstance().run();
+    
   }
 
   /**
@@ -130,6 +125,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+
     drive.schedule();
     //align.schedule();
     climb.schedule();
