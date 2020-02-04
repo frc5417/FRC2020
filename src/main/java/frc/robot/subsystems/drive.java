@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
+import java.lang.Math;
 
 /**
  * Add your docs here.
@@ -72,20 +73,8 @@ public class Drive extends SubsystemBase {
     */
     
 
-    if (((leftPower > .3)||(leftPower < -.3))){
-    driveMasterL.set(leftPower);
-
-    }
-    else{
-      driveMasterL.set(0);
-
-    }
-    if(((rightPower > .3)||(rightPower < -.3))){
-      driveMasterR.set(rightPower);
-    }
-    else{
-      driveMasterR.set(0);
-    }
+      driveMasterL.set(Math.pow(leftPower, 2));
+      driveMasterR.set(Math.pow(rightPower, 2));
     
     
   }
