@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.commands.*;
 import frc.robot.Robot;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 public class RobotContainer{
 
@@ -38,10 +39,17 @@ public class RobotContainer{
 
     public Command getAutonomousCommand(){
 
-        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.maxVelocity, 3).setKinematics(pathfollower.getKinematics());
+        var autoVoltageConstraint =
+        new DifferentialDriveVoltageConstraint(
+            new SimpleMotorFeedforward(Constants.kVolts,
+                                       Constants.kVSPM,
+                                       Constants.kVSSPM),
+            pathfollower.getKinematics(),
+            10);
+        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.maxVelocity, 3).setKinematics(pathfollower.getKinematics()).addConstraint(autoVoltageConstraint);
 
-        Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 1),
-        new Translation2d(2, -1)), new Pose2d(3, 0, new Rotation2d(0)), trajectoryConfig);
+        Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 0),
+        new Translation2d(2, 0)), new Pose2d(3, 0, new Rotation2d(0)), trajectoryConfig);
         
         RamseteCommand ramseteCommand = new RamseteCommand(traj, pathfollower::getPose, new RamseteController(2, 0.7), new SimpleMotorFeedforward(Constants.kVolts, Constants.kVSPM, Constants.kVSSPM), 
         pathfollower.getKinematics(), pathfollower::getSpeeds, new PIDController(Constants.kPDriveVelocity, 0, 0), new PIDController(Constants.kPDriveVelocity, 0, 0), pathfollower::tankDriveVolts, pathfollower);//add ref to differential drive object in trajectoryfollowing);
@@ -67,12 +75,12 @@ public class RobotContainer{
         return pad.getRawButton(2);
     }
 
-    public boolean xButton(){
-        return pad.getRawButton(4);
+    public boolean lBumper(){
+        return pad.getRawButton(5);
     }
 
-    public boolean yButton(){
-        return pad.getRawButton(3);
+    public boolean rBumper(){
+        return pad.getRawButton(6);
     }
 
 }

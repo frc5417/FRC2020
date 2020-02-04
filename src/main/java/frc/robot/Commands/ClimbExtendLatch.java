@@ -32,7 +32,7 @@ public class ClimbExtendLatch extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.c.extend(Robot.r.bButton());
+    //Robot.c.extend(Robot.r.bButton());
     Robot.c.latch(Robot.r.climbLPower(), Robot.r.climbRPower());
   }
 

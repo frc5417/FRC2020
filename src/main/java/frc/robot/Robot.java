@@ -125,7 +125,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-
     drive.schedule();
     //align.schedule();
     climb.schedule();

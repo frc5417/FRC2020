@@ -31,8 +31,8 @@ import frc.robot.Constants;
 public class Climb extends SubsystemBase {
     
   	//Initializes Solenoids and compressor pistons
-    Solenoid climbPistonR = new Solenoid(0);
-    Solenoid climbPistonL = new Solenoid(1);
+    //Solenoid climbPistonR = new Solenoid(0);
+    //Solenoid climbPistonL = new Solenoid(1);
 
     CANSparkMax motorR = new CANSparkMax(Constants.RClimb, MotorType.kBrushless);
     CANSparkMax motorL = new CANSparkMax(Constants.LClimb, MotorType.kBrushless);
@@ -41,13 +41,13 @@ public class Climb extends SubsystemBase {
     int count;
 
     public Climb(){
-      motorR.setInverted(true);
+      motorR.setInverted(false);
       motorL.setInverted(true);
       toggle = 0;
       count = 0;
 
     }
-
+/*
     public void extend(boolean button)
     {
       if(button){
@@ -79,6 +79,7 @@ public class Climb extends SubsystemBase {
       }
 
     }
+    */
 
     public void latch(double leftPower, double rightPower)
     {

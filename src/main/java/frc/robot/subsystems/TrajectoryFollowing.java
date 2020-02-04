@@ -44,6 +44,8 @@ public class TrajectoryFollowing extends SubsystemBase{
         driveSlaveRight = new VictorSPX(Constants.slaveRightMotor);
         driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
 
+        resetEncoders();
+
         gyro = new AHRS(Port.kMXP);
 
         kinematics = new DifferentialDriveKinematics(Constants.driveTrain_width);
@@ -54,8 +56,8 @@ public class TrajectoryFollowing extends SubsystemBase{
         driveSlaveLeft.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
         driveSlaveRight.set(ControlMode.Follower, driveMasterRight.getDeviceID());
 
-        driveMasterRight.setInverted(true);
-        driveMasterLeft.setInverted(false);
+        driveMasterRight.setInverted(false);
+        driveMasterLeft.setInverted(true);
 
         //TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.maxVelocity, 3).setKinematics(kinematics);
 
