@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 import frc.robot.Robot;
@@ -29,7 +28,7 @@ public class RunIntakeForward extends CommandBase {
   @Override
   public void execute() {
     Robot.i.setIntakeSpeed(.2);
-    Robot.i.runIntakeSystem(Robot.r.xButton());
+    Robot.i.runIntakeSystem(Robot.r.lBumper());
   }
 
   // Called once the command ends or is interrupted.

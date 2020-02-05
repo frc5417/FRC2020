@@ -47,19 +47,23 @@ public class TrajectoryFollowing extends SubsystemBase{
         gyro = new AHRS(Port.kMXP);
 
         kinematics = new DifferentialDriveKinematics(Constants.driveTrain_width);
-        odometry = new DifferentialDriveOdometry(getHeading()/*, pose*/); //try with and without pose as argument
+        
         pose = new Pose2d();
 
+        resetOdometry(pose);
+        zeroHeading();
+
+        odometry = new DifferentialDriveOdometry(getHeading()/*, pose*/); //try with and without pose as argument
 
         driveSlaveLeft.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
         driveSlaveRight.set(ControlMode.Follower, driveMasterRight.getDeviceID());
 
-        driveMasterRight.setInverted(false);
+        driveMasterRight.setInverted(true);
         driveMasterLeft.setInverted(true);
 
-        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.maxVelocity, 3).setKinematics(kinematics);
+        //TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.maxVelocity, 3).setKinematics(kinematics);
 
-        traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 1), new Translation2d(1, 2)), new Pose2d(3, 0, new Rotation2d(0)), trajectoryConfig);
+        //traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 1), new Translation2d(1, 2)), new Pose2d(3, 0, new Rotation2d(0)), trajectoryConfig);
         
         //RamseteCommand ramseteCommand = new RamseteCommand(traj, pose, new RamseteController(2, 0.7), new SimpleMotorFeedforward(Constants.kVolts, Constants.kVSPM, Constants.kVSSPM), kinematics, getSpeeds(), new PIDController(Constants.kPDriveVelocity, 0, 0), new PIDController(Constants.kPDriveVelocity, 0, 0), thisTraj::tankDriveVolts, thisTraj::);
     }
@@ -79,7 +83,7 @@ public class TrajectoryFollowing extends SubsystemBase{
 
     @Override
     public void periodic(){
-        pose = odometry.update(getHeading(), getSpeeds().leftMetersPerSecond, getSpeeds().rightMetersPerSecond);
+        pose = odometry.update(getHeading(), driveMasterLeft.getSelectedSensorPosition(), driveMasterRight.getSelectedSensorPosition());
     }
 
     public void tankDriveVolts(double leftVolts, double rightVolts){
@@ -96,11 +100,33 @@ public class TrajectoryFollowing extends SubsystemBase{
     }
 
     public Pose2d getPose(){
-        return this.pose;
+        return odometry.getPoseMeters();
     }
 
-    public Trajectory getTraj(){
+    /*public Trajectory getTraj(){
         return traj;
+    }*/
+
+    public void resetOdometry(Pose2d pose){
+        resetEncoders();
+        odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading().getDegrees()));
+    }
+
+    public void resetEncoders(){
+        driveMasterLeft.setSelectedSensorPosition(0);
+        driveMasterRight.setSelectedSensorPosition(0);
+    }
+
+    public double getAverageEcoderDistance(){
+        return ((driveMasterLeft.getSelectedSensorPosition() * .319 / 100) + (driveMasterRight.getSelectedSensorPosition() * .319 / 100)) / 2;
+    }
+
+    public void zeroHeading(){
+        gyro.reset();
+    }
+
+    public double getTurnRate(){
+        return gyro.getRate();
     }
 
 }

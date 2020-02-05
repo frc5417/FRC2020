@@ -8,6 +8,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+
 import frc.robot.Constants;
 
 
@@ -34,7 +38,12 @@ public class Limelight extends SubsystemBase {
     TalonSRX driveMasterLeft = new TalonSRX(Constants.masterLeftMotor);
     VictorSPX driveSlaveRight = new VictorSPX(Constants.slaveRightMotor);
     VictorSPX driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
-
+/*
+    CANSparkMax driveMasterL = new CANSparkMax(Constants.masterLeftMotor, MotorType.kBrushless);
+    CANSparkMax driveSlaveL = new CANSparkMax(Constants.slaveLeftMotor, MotorType.kBrushless);
+    CANSparkMax driveMasterR = new CANSparkMax(Constants.masterRightMotor, MotorType.kBrushless);
+    CANSparkMax driveSlaveR = new CANSparkMax(Constants.slaveRightMotor, MotorType.kBrushless);
+*/
     // Whether target is visible or not
     double v;
 
@@ -52,6 +61,8 @@ public class Limelight extends SubsystemBase {
     
     // Angle of limelight
     double a;
+
+    double led;
     
     
 
@@ -93,12 +104,14 @@ public class Limelight extends SubsystemBase {
     public double getV(){
       return v;
     }
+
+
     public void printX(){
       System.out.println(x);
     }
 
     // Program to allow the drivers to auto align based on the target
-    public void autoAlign(boolean button){
+    public void autoAlign(){
 
       // Constants used to calculate motor power for alignment
       Double Kp = -Constants.Kp;
@@ -112,7 +125,7 @@ public class Limelight extends SubsystemBase {
 
       // Checks to see if button pressec
 
-  if(button){
+
 
         // Set heading error and the steering adjust
         Double heading_error = -x;
@@ -146,9 +159,7 @@ public class Limelight extends SubsystemBase {
         if (v == 1){
 
           driveMasterLeft.set(ControlMode.PercentOutput, left_command);
-  
           driveMasterRight.set(ControlMode.PercentOutput, -right_command);
-
           driveSlaveLeft.set(ControlMode.PercentOutput, left_command);
           driveSlaveRight.set(ControlMode.PercentOutput, -right_command);
   
@@ -160,16 +171,10 @@ public class Limelight extends SubsystemBase {
           driveSlaveLeft.set(ControlMode.PercentOutput, 0);
           driveSlaveRight.set(ControlMode.PercentOutput, 0);
         }
-      }
-      else{
-        driveMasterLeft.set(ControlMode.PercentOutput, 0);
-        driveMasterRight.set(ControlMode.PercentOutput, 0);
-        driveSlaveLeft.set(ControlMode.PercentOutput, 0);
-        driveSlaveRight.set(ControlMode.PercentOutput, 0);
-      } 
+    }
 
 
-  }
+    }
 
-}
+
 // atiksh is dumb/test

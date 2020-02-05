@@ -35,7 +35,7 @@ public class RunIntakeBackwards extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Robot.i.setIntakeSpeed(.2);
-    Robot.i.runIntakeSystemBackwards(Robot.r.yButton());
+    Robot.i.runIntakeSystemBackwards(Robot.r.rBumper());
   }
 
   // Returns true when the command should end.
