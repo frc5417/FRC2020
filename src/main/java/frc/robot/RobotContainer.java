@@ -39,6 +39,9 @@ public class RobotContainer{
 
     public Command getAutonomousCommand(){
 
+        pathfollower.resetOdometry(pathfollower.getPose());
+        pathfollower.zeroHeading();
+
         var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.kVolts,
@@ -48,8 +51,7 @@ public class RobotContainer{
             10);
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.maxVelocity, 3).setKinematics(pathfollower.getKinematics()).addConstraint(autoVoltageConstraint);
 
-        Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(1, 0),
-        new Translation2d(2, 0)), new Pose2d(3, 0, new Rotation2d(0)), trajectoryConfig);
+        Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(), new Pose2d(-.25, -.25, new Rotation2d(-90)), trajectoryConfig);
         
         RamseteCommand ramseteCommand = new RamseteCommand(traj, pathfollower::getPose, new RamseteController(2, 0.7), new SimpleMotorFeedforward(Constants.kVolts, Constants.kVSPM, Constants.kVSSPM), 
         pathfollower.getKinematics(), pathfollower::getSpeeds, new PIDController(Constants.kPDriveVelocity, 0, 0), new PIDController(Constants.kPDriveVelocity, 0, 0), pathfollower::tankDriveVolts, pathfollower);//add ref to differential drive object in trajectoryfollowing);

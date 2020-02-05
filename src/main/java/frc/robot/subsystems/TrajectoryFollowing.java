@@ -44,19 +44,21 @@ public class TrajectoryFollowing extends SubsystemBase{
         driveSlaveRight = new VictorSPX(Constants.slaveRightMotor);
         driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
 
-        resetEncoders();
-
         gyro = new AHRS(Port.kMXP);
 
         kinematics = new DifferentialDriveKinematics(Constants.driveTrain_width);
-        odometry = new DifferentialDriveOdometry(getHeading()/*, pose*/); //try with and without pose as argument
+        
         pose = new Pose2d();
 
+        resetOdometry(pose);
+        zeroHeading();
+
+        odometry = new DifferentialDriveOdometry(getHeading()/*, pose*/); //try with and without pose as argument
 
         driveSlaveLeft.set(ControlMode.Follower, driveMasterLeft.getDeviceID());
         driveSlaveRight.set(ControlMode.Follower, driveMasterRight.getDeviceID());
 
-        driveMasterRight.setInverted(false);
+        driveMasterRight.setInverted(true);
         driveMasterLeft.setInverted(true);
 
         //TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.maxVelocity, 3).setKinematics(kinematics);
@@ -81,7 +83,7 @@ public class TrajectoryFollowing extends SubsystemBase{
 
     @Override
     public void periodic(){
-        pose = odometry.update(getHeading(), getSpeeds().leftMetersPerSecond, getSpeeds().rightMetersPerSecond);
+        pose = odometry.update(getHeading(), driveMasterLeft.getSelectedSensorPosition(), driveMasterRight.getSelectedSensorPosition());
     }
 
     public void tankDriveVolts(double leftVolts, double rightVolts){
@@ -98,7 +100,7 @@ public class TrajectoryFollowing extends SubsystemBase{
     }
 
     public Pose2d getPose(){
-        return this.pose;
+        return odometry.getPoseMeters();
     }
 
     /*public Trajectory getTraj(){

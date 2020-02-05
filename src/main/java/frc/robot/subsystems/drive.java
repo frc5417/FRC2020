@@ -62,7 +62,7 @@ public class Drive extends SubsystemBase {
     driveSlaveLeft.set(ControlMode.PercentOutput, leftPower);
     driveSlaveRight.set(ControlMode.PercentOutput, -rightPower);
     
-    /*
+    
     }
     else{
       driveMasterLeft.set(ControlMode.PercentOutput, 0);
