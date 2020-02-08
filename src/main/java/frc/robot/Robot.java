@@ -21,6 +21,22 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
 
 
+//importing main color libraries
+import com.revrobotics.ColorSensorV3;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorMatch;
+//importing color assist libraries
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.util.Color;
+
+
+
+
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -33,6 +49,8 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+  
 
   /**
    * This function is run when the robot is first started up and should be
@@ -55,13 +73,40 @@ public class Robot extends TimedRobot {
   public static Intake i = new Intake();
   public static RobotContainer r = new RobotContainer();
   public static Command a;
-
   
+  // Color ralated subsystems
+  public static colorMotor m_Drivetrain = new colorMotor();
+  private I2C.Port i2cPort = I2C.Port.kOnboard;//sets up the I2C port
+  private ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);//sets up a new sensor at the port
+  private ColorMatch m_colorMatcher = new ColorMatch();//sets up the color match system
+
+  //initializing commands
+  private Command m_Driveforward;
+ //creats target colors
+  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
+  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
+  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  //for the color change count vairables
+  static public int numberOfChange = 0;
+  static boolean isColorTheInitial = true; //used to determine if the color has changed or not
+  static boolean controlBooleanCode = true; //used as a control when counting the number of changes
+  static boolean hasInitialColorBeenSet = false;
+  static public String initialColor; //used as a placeholder for what the first color the color sensors see is
+  public static Command colorMove = new colorMove(m_Drivetrain);
+
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+
+    //establishes the color targets
+    m_colorMatcher.addColorMatch(kBlueTarget);
+    m_colorMatcher.addColorMatch(kGreenTarget);
+    m_colorMatcher.addColorMatch(kRedTarget);
+    m_colorMatcher.addColorMatch(kYellowTarget);
   }
 
   /**
@@ -81,6 +126,56 @@ public class Robot extends TimedRobot {
     //aut.setY(ty);
     //aut.printX();
     CommandScheduler.getInstance().run();
+
+
+
+    //color related code goes after here
+    final Color detectedColor = m_colorSensor.getColor();
+    String colorString;
+    final ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+
+    
+  
+
+    if (match.color == kBlueTarget) {
+      colorString = "Blue";
+    } else if (match.color == kRedTarget) {
+      colorString = "Red";
+    } else if (match.color == kGreenTarget) {
+      colorString = "Green";
+    } else if (match.color == kYellowTarget) {
+      colorString = "Yellow";
+    } else {
+      colorString = "Unknown";
+    }
+
+    if (!Robot.hasInitialColorBeenSet) {
+      Robot.initialColor = colorString;
+      Robot.hasInitialColorBeenSet = true;
+    }
+
+    if(!colorString.equals(Robot.initialColor)){
+      if(Robot.controlBooleanCode == true){
+        Robot.controlBooleanCode = false;
+        Robot.numberOfChange++;
+        System.out.println("The color was changed, and the color has changed " + Robot.numberOfChange + " times from " + Robot.initialColor );
+        
+      }        
+  } else{
+    Robot.controlBooleanCode = true;
+  }
+    
+
+
+
+
+    SmartDashboard.putString("Initial Color", Robot.initialColor);
+    SmartDashboard.putNumber("Number of changes from the inital color, " + Robot.initialColor, Robot.numberOfChange);
+    SmartDashboard.putNumber("Red", detectedColor.red);
+    SmartDashboard.putNumber("Green", detectedColor.green);
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    SmartDashboard.putNumber("Confidence", match.confidence);
+    SmartDashboard.putString("Detected Color", colorString);
   }
 
   /**

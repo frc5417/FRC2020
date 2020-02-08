@@ -23,50 +23,45 @@ public class Drive extends SubsystemBase {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   /*
-  CANSparkMax driveSlaveL = new CANSparkMax(Constants.slaveLeftMotor, MotorType.kBrushless);
-  CANSparkMax driveMasterR = new CANSparkMax(Constants.masterRightMotor, MotorType.kBrushless);
-  CANSparkMax driveSlaveR = new CANSparkMax(Constants.slaveRightMotor, MotorType.kBrushless);
-  CANSparkMax driveMasterL = new CANSparkMax(Constants.masterLeftMotor, MotorType.kBrushless);
-  */
+   * CANSparkMax driveSlaveL = new CANSparkMax(Constants.slaveLeftMotor,
+   * MotorType.kBrushless); CANSparkMax driveMasterR = new
+   * CANSparkMax(Constants.masterRightMotor, MotorType.kBrushless); CANSparkMax
+   * driveSlaveR = new CANSparkMax(Constants.slaveRightMotor,
+   * MotorType.kBrushless); CANSparkMax driveMasterL = new
+   * CANSparkMax(Constants.masterLeftMotor, MotorType.kBrushless);
+   */
 
   TalonSRX driveMasterRight = new TalonSRX(Constants.masterRightMotor);
   TalonSRX driveMasterLeft = new TalonSRX(Constants.masterLeftMotor);
   VictorSPX driveSlaveRight = new VictorSPX(Constants.slaveRightMotor);
   VictorSPX driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
-  
 
-  public Drive(){
-  
-
+  public Drive() {
 
     driveMasterRight.setNeutralMode(NeutralMode.Coast);
     driveMasterLeft.setNeutralMode(NeutralMode.Coast);
     driveSlaveRight.setNeutralMode(NeutralMode.Coast);
     driveSlaveLeft.setNeutralMode(NeutralMode.Coast);
-/*
-    driveSlaveL.follow(driveMasterL);
-    driveSlaveR.follow(driveMasterR);
-    */
-    
+    /*
+     * driveSlaveL.follow(driveMasterL); driveSlaveR.follow(driveMasterR);
+     */
+
   }
   /*
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-    Drive.setDefaultCommand(new TankDrive());
+   * @Override public void initDefaultCommand() { // Set the default command for a
+   * subsystem here. // setDefaultCommand(new MySpecialCommand());
+   * Drive.setDefaultCommand(new TankDrive());
+   * 
+   * }
+   */
 
-  }
-  */
-
-  public void SetPower(double leftPower, double rightPower){
-    if (!((leftPower < .1)&&(leftPower > -.1) && (rightPower < .1)&&(rightPower > -.1))){
-    driveMasterLeft.set(ControlMode.PercentOutput, .5*leftPower);
-    driveMasterRight.set(ControlMode.PercentOutput, .5*-rightPower);
-    driveSlaveLeft.set(ControlMode.PercentOutput, .5*leftPower);
-    driveSlaveRight.set(ControlMode.PercentOutput, .5*-rightPower);
-    }
-    else{
+  public void SetPower(double leftPower, double rightPower) {
+    if (!((leftPower < .1) && (leftPower > -.1) && (rightPower < .1) && (rightPower > -.1))) {
+      driveMasterLeft.set(ControlMode.PercentOutput, .5 * leftPower);
+      driveMasterRight.set(ControlMode.PercentOutput, .5 * -rightPower);
+      driveSlaveLeft.set(ControlMode.PercentOutput, .5 * leftPower);
+      driveSlaveRight.set(ControlMode.PercentOutput, .5 * -rightPower);
+    } else {
       driveMasterLeft.set(ControlMode.PercentOutput, 0);
       driveMasterRight.set(ControlMode.PercentOutput, 0);
       driveSlaveLeft.set(ControlMode.PercentOutput, 0);
@@ -74,8 +69,7 @@ public class Drive extends SubsystemBase {
     }
 
     /*
-    driveMasterL.set(leftPower);
-    driveMasterR.set(-rightPower);
-    */
+     * driveMasterL.set(leftPower); driveMasterR.set(-rightPower);
+     */
   }
 }
