@@ -10,9 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.colorMotor;
+import frc.robot.subsystems.ColorSensor;
 
 public class colorMove extends CommandBase {
   private final colorMotor m_colorMotor;
+
   /**
    * Creates a new colorMove.
    */
@@ -31,12 +33,12 @@ public class colorMove extends CommandBase {
   public void execute() {
     m_colorMotor.returnMessage();
 
-    if (Robot.numberOfChange < 3) {
+    if (ColorSensor.numberOfChange < 3) {
       m_colorMotor.driveFoward(0.2);
-    }else{
+    } else {
       m_colorMotor.driveFoward(0);
     }
-    
+
   }
 
   // Called once the command ends or is interrupted.

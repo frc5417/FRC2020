@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
 
-
+/*Moved to Color.java
 //importing main color libraries
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.util.Color;
-
+*/
 
 
 
@@ -74,6 +74,9 @@ public class Robot extends TimedRobot {
   public static RobotContainer r = new RobotContainer();
   public static Command a;
   
+  /*
+  Moved to Color.java
+
   // Color ralated subsystems
   public static colorMotor m_Drivetrain = new colorMotor();
   private I2C.Port i2cPort = I2C.Port.kOnboard;//sets up the I2C port
@@ -94,19 +97,20 @@ public class Robot extends TimedRobot {
   static boolean hasInitialColorBeenSet = false;
   static public String initialColor; //used as a placeholder for what the first color the color sensors see is
   public static Command colorMove = new colorMove(m_Drivetrain);
-
+  */
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-
+    /*Moved to Color.java, need to call in init
     //establishes the color targets
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
+    */
   }
 
   /**
@@ -128,12 +132,12 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
 
-
+    /*Moved to Color.java
     //color related code goes after here
     final Color detectedColor = m_colorSensor.getColor();
     String colorString;
     final ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
-
+    
     
   
 
@@ -155,7 +159,7 @@ public class Robot extends TimedRobot {
     }
 
     if(!colorString.equals(Robot.initialColor)){
-      if(Robot.controlBooleanCode == true){
+      if(Robot.controlBooleanCode){
         Robot.controlBooleanCode = false;
         Robot.numberOfChange++;
         System.out.println("The color was changed, and the color has changed " + Robot.numberOfChange + " times from " + Robot.initialColor );
@@ -176,6 +180,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
+
+    */
+
   }
 
   /**
