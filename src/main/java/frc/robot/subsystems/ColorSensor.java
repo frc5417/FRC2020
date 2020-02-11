@@ -8,7 +8,6 @@ import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.I2C;
 // import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -19,8 +18,6 @@ public class ColorSensor {
     private ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);// sets up a new sensor at the port
     private ColorMatch m_colorMatcher = new ColorMatch();// sets up the color match system
 
-    // initializing commands
-    private Command m_Driveforward;
     // creats target colors
     private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
     private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);

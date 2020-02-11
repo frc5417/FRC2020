@@ -11,8 +11,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-// import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 // import edu.wpi.first.wpilibj.Talon;
 // import edu.wpi.first.wpilibj.Victor;
@@ -23,7 +23,7 @@ public class colorMotor extends SubsystemBase {
   /**
    * Creates a new colorMotor.
    */
-  private final TalonSRX m_leftMotor = new TalonSRX(Constants.m_leftMotorPort);
+  private final VictorSPX m_leftMotor = new VictorSPX(Constants.m_colorMotorPort);
 
   public colorMotor() {
   }

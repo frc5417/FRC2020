@@ -35,5 +35,5 @@ public class Constants {
     public static final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.driveTrain_width);
     // ideal distance 90 inches
 
-	public static int m_leftMotorPort = 4; //THIS NEEDS TO BE MODIFIED TO FIT WHAT IT IS
+	public static int m_colorMotorPort = 4; //THIS NEEDS TO BE MODIFIED TO FIT WHAT IT IS
 }
