@@ -30,10 +30,11 @@ public class colorMove extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_colorMotor.returnMessage();
+   
 
     if (ColorSensor.numberOfChange < 3) {
       m_colorMotor.driveFoward(0.2);
+      System.out.println("Motor Is Moving");
     } else {
       m_colorMotor.driveFoward(0);
     }

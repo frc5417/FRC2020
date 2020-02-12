@@ -17,8 +17,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.Limelight;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /*Moved to Color.java
 //importing main color libraries
@@ -65,6 +67,7 @@ public class Robot extends TimedRobot {
   NetworkTableEntry ta = table.getEntry("ta");
   NetworkTableEntry ts = table.getEntry("ts");
   NetworkTableEntry ledMode = table.getEntry("ledMode");
+  public static colorMotor colorMotor = new colorMotor();
 
   public static Limelight l = new Limelight();
   public static Joystick pad = new Joystick(0);
@@ -73,6 +76,9 @@ public class Robot extends TimedRobot {
   public static Intake i = new Intake();
   public static RobotContainer r = new RobotContainer();
   public static Command a;
+  public static ColorSensor m_ColorSensor = new ColorSensor();
+  public static Command colorMove = new colorMove(colorMotor);
+  
   
   /*
   Moved to Color.java
@@ -226,6 +232,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    colorMove.schedule();
+
+    
     /*
     if (pad.getRawButton(1)){
       
@@ -241,10 +250,12 @@ public class Robot extends TimedRobot {
     i.runFeederBackwards(pad.getRawButtonPressed(4)); //check this to make sure its the right button
     }
     */
+    CommandScheduler.getInstance().run();
 
 
 
   }
+
 
   /**
    * This function is called periodically during test mode.

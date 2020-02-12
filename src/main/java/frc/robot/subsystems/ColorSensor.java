@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //importing main color libraries
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
@@ -11,9 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.util.Color;
 
-public class ColorSensor {
+public class ColorSensor extends SubsystemBase{
     // Color ralated subsystems
-    public static colorMotor m_Drivetrain = new colorMotor();
+    public colorMotor m_Drivetrain = new colorMotor();
     private I2C.Port i2cPort = I2C.Port.kOnboard;// sets up the I2C port
     private ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);// sets up a new sensor at the port
     private ColorMatch m_colorMatcher = new ColorMatch();// sets up the color match system
@@ -41,7 +42,9 @@ public class ColorSensor {
 
     }
 
-    public void senseColor() { 
+    public void periodic() { 
+
+        System.out.println("The Color Sensor has Ran");
 
         // color related code goes after here
         final Color detectedColor = m_colorSensor.getColor();
