@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 //cody's comment
-//cody's comment for git color_GD
+//cody's comment for git color_GD, recomfirmation
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
