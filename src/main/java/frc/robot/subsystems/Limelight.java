@@ -32,6 +32,7 @@ public class Limelight extends SubsystemBase {
     // Correct values to move the robot to align with the target, basically the motor power that is sent when a target is seen
     double left_command;
     double right_command;
+    double turret_command;
 
     // These are the motors on the robot
     TalonSRX driveMasterRight = new TalonSRX(Constants.masterRightMotor);
@@ -104,6 +105,9 @@ public class Limelight extends SubsystemBase {
     public double getV(){
       return v;
     }
+    public double getY(){
+      return y;
+    }
 
 
     public void printX(){
@@ -111,7 +115,7 @@ public class Limelight extends SubsystemBase {
     }
 
     // Program to allow the drivers to auto align based on the target
-    public void autoAlign(){
+    public double[] getSpeeds(){
 
       // Constants used to calculate motor power for alignment
       Double Kp = -Constants.Kp;
@@ -121,6 +125,7 @@ public class Limelight extends SubsystemBase {
       Double min_command = Constants.min_command;
       left_command = 0;
       right_command = 0;
+      turret_command = 0;
 
 
       // Checks to see if button pressec
@@ -143,8 +148,15 @@ public class Limelight extends SubsystemBase {
         
         distance_adjust = KpDistance * distance_error;
 
-        left_command += -steering_adjust + distance_adjust;
-        right_command += distance_adjust + steering_adjust;
+        left_command += -(steering_adjust - distance_adjust);
+        right_command += -(distance_adjust + steering_adjust);
+        /*left_command -= distance_adjust;
+        right_command += distance_adjust;
+        turret_command += steering_adjust;*/
+        double[] wheelSpeeds = new double[3];
+        wheelSpeeds[0] = left_command;
+        wheelSpeeds[1] = right_command;
+        wheelSpeeds[2] = turret_command;
   
         // Determine distance to stop based on area of image seen
         /*if (area > .25){
@@ -157,24 +169,22 @@ public class Limelight extends SubsystemBase {
   
         // Run motors if the target is seen 
         if (v == 1){
-
-          driveMasterLeft.set(ControlMode.PercentOutput, left_command);
-          driveMasterRight.set(ControlMode.PercentOutput, -right_command);
-          driveSlaveLeft.set(ControlMode.PercentOutput, left_command);
-          driveSlaveRight.set(ControlMode.PercentOutput, -right_command);
+          return wheelSpeeds;
   
         }
+      
+      
         else
         {
-          driveMasterLeft.set(ControlMode.PercentOutput, 0);
-          driveMasterRight.set(ControlMode.PercentOutput, 0);
-          driveSlaveLeft.set(ControlMode.PercentOutput, 0);
-          driveSlaveRight.set(ControlMode.PercentOutput, 0);
+          return new double[3];
         }
+      }
+
     }
+  
 
 
-    }
+    
 
 
 // atiksh is dumb/test

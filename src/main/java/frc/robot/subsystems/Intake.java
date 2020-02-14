@@ -12,6 +12,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -26,10 +28,13 @@ public class Intake extends SubsystemBase {
 
     double intakeSpeed = .5;
     double feederSpeed = .3;
+    public int count = 0;
 
     WPI_VictorSPX rollerBar = new WPI_VictorSPX(Constants.intakeMotor1);//rollerbar               //ask build which ports theyll use
     WPI_VictorSPX internalBelt = new WPI_VictorSPX(Constants.intakeMotor2);//internal belt thing
     WPI_VictorSPX feeder = new WPI_VictorSPX(Constants.intakeMotor3);//the one that puts it in the shooter
+    CANSparkMax masterShoot =  new CANSparkMax(Constants.shooterMaster, MotorType.kBrushless);
+    CANSparkMax slaveShoot =  new CANSparkMax(Constants.shooterSlave, MotorType.kBrushless);
     
     public Intake(){
       rollerBar.setNeutralMode(NeutralMode.Coast);
@@ -113,5 +118,28 @@ public class Intake extends SubsystemBase {
     }else{
       feeder.setNeutralMode(NeutralMode.Brake);
     }
+  }
+
+  public void shoot(boolean button){
+    if(button){
+      masterShoot.set(-1);
+      slaveShoot.follow(masterShoot);
+      if(count >= 1000){
+        internalBelt.set(intakeSpeed);
+        feeder.follow(internalBelt);
+      }
+      else{
+        internalBelt.set(0);
+        feeder.follow(internalBelt);
+      }
+    }
+    else{
+      masterShoot.set(0);
+      slaveShoot.follow(masterShoot);
+      internalBelt.set(0);
+      feeder.follow(internalBelt);
+      count = 0;
+    }
+
   }
 }

@@ -49,18 +49,22 @@ public class Robot extends TimedRobot {
   public NetworkTableEntry ts = table.getEntry("ts");
   public NetworkTableEntry ledMode = table.getEntry("ledMode");
 
-  public static Limelight l = new Limelight();
+  public static Limelight limelight = new Limelight();
   public static Joystick pad = new Joystick(0);
-  public static Drive d = new Drive();
-  public static Climb c = new Climb();
-  public static Intake i = new Intake();
-  public static RobotContainer r = new RobotContainer();
-  public static Command a;
-  public static Command align = new AutoAlign(l);
-  public static Command drive = new TankDrive(d);
-  public static Command intakeF = new RunIntakeForward(i);
-  public static Command intakeB = new RunIntakeBackwards(i);
-  public static Command climb = new ClimbExtendLatch(c);
+  public static Drive drive = new Drive();
+  public static Climb climb = new Climb();
+  public static Intake intake = new Intake();
+  public static RobotContainer robotContainer = new RobotContainer();
+  public static Command autonomous;
+  public static Command align = new AutoAlign(limelight);
+  public static Command tankDrive = new TankDrive(drive);
+  public static Command intakeF = new RunIntakeForward(intake);
+  public static Command intakeB = new RunIntakeBackwards(intake);
+  public static Command climbL = new ClimbExtendLatch(climb);
+  public static Command climbU = new ClimbUnLatch(climb);
+  //public static Command shift = new Shift(drive);
+  public static Command shoot = new Shoot(intake);
+  public static TrajectoryFollowing trajectoryFollowing = new TrajectoryFollowing();
 
   
   @Override
@@ -68,6 +72,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
   }
 
   /**
@@ -80,12 +85,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    l.setX(tx);
-    l.setY(ty);
-    l.setArea(ta);
-    l.setV(tv);
-    //aut.setY(ty);
-    //aut.printX();
+    
+    limelight.setX(tx);
+    limelight.setY(ty);
+    limelight.setArea(ta);
+    limelight.setV(tv);
 
   }
 
@@ -102,10 +106,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    trajectoryFollowing.zeroHeading();
+    trajectoryFollowing.resetEncoders();
 
-    a = r.getAutonomousCommand();
-    if (a != null) {
-      a.schedule();
+    autonomous = robotContainer.getAutonomousCommand();
+    if (autonomous != null) {
+      autonomous.schedule();
     }
 
 
@@ -117,6 +123,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
+    System.out.println(trajectoryFollowing.getPose());
     
   }
 
@@ -125,13 +132,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    drive.schedule();
+    intake.count += 20;
+    tankDrive.schedule();
     //align.schedule();
-    climb.schedule();
-    d.setDefaultCommand(drive);
-    r.aPad.whileHeld(align);
-    r.xPad.whileHeld(intakeF);
-    r.yPad.whileHeld(intakeB);
+    climbL.schedule();
+    climbU.schedule();
+    //shift.schedule();
+    drive.setDefaultCommand(tankDrive);
+    robotContainer.aPad.whileHeld(align);
+    shoot.schedule();
+    //r.xPad.whileHeld(intakeF);
+    //r.yPad.whileHeld(intakeB);
     CommandScheduler.getInstance().run();
     
     

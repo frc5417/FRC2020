@@ -16,6 +16,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
 import java.lang.Math;
+import edu.wpi.first.wpilibj.Solenoid;
+import frc.robot.subsystems.*;
 
 /**
  * Add your docs here.
@@ -28,7 +30,12 @@ public class Drive extends SubsystemBase {
   CANSparkMax driveMasterR = new CANSparkMax(Constants.masterRightMotor, MotorType.kBrushless);
   CANSparkMax driveSlaveR = new CANSparkMax(Constants.slaveRightMotor, MotorType.kBrushless);
   CANSparkMax driveMasterL = new CANSparkMax(Constants.masterLeftMotor, MotorType.kBrushless);
+  TalonSRX turretMotor = new TalonSRX(9);
+  Solenoid shifter = new Solenoid(0);
+  Limelight limelight = new Limelight();
   
+  int count;
+  int toggle;
 /*
   TalonSRX driveMasterRight = new TalonSRX(Constants.masterRightMotor);
   TalonSRX driveMasterLeft = new TalonSRX(Constants.masterLeftMotor);
@@ -38,7 +45,6 @@ public class Drive extends SubsystemBase {
 
   public Drive(){
   
-
 /*
     driveMasterRight.setNeutralMode(NeutralMode.Coast);
     driveMasterLeft.setNeutralMode(NeutralMode.Coast);
@@ -47,9 +53,11 @@ public class Drive extends SubsystemBase {
 */
     driveSlaveL.follow(driveMasterL);
     driveSlaveR.follow(driveMasterR);
-    driveMasterL.setInverted(true);
-    driveMasterR.setInverted(false);
-    
+    driveMasterL.setInverted(false);
+    driveMasterR.setInverted(true);
+    driveSlaveR.setInverted(true);
+    turretMotor.setNeutralMode(NeutralMode.Coast);
+
     
   }
   
@@ -57,7 +65,7 @@ public class Drive extends SubsystemBase {
   public void SetPower(double leftPower, double rightPower){
     //if (!((leftPower < .1)&&(leftPower > -.1) || (rightPower < .1)&&(rightPower > -.1))){
       /*
-    driveMasterLeft.set(ControlMode.PercentOutput, leftPower);
+    driveMasterLeft.set(ControlMode.PercentOutput, -leftPower);
     driveMasterRight.set(ControlMode.PercentOutput, -rightPower);
     driveSlaveLeft.set(ControlMode.PercentOutput, leftPower);
     driveSlaveRight.set(ControlMode.PercentOutput, -rightPower);
@@ -72,10 +80,59 @@ public class Drive extends SubsystemBase {
     }
     */
     
-
-      driveMasterL.set(Math.pow(leftPower, 2));
-      driveMasterR.set(Math.pow(rightPower, 2));
-    
-    
+      driveMasterL.set(Math.pow(leftPower, 3));
+      driveMasterR.set(Math.pow(rightPower, 3));
+      driveSlaveL.follow(driveMasterL);
+      driveSlaveR.follow(driveMasterR);
+      
   }
+  public void autoPower(double leftPower, double rightPower, double turretPower){
+    /*
+    driveMasterLeft.set(ControlMode.PercentOutput, leftPower);
+    driveMasterRight.set(ControlMode.PercentOutput, -rightPower);
+    driveSlaveLeft.set(ControlMode.PercentOutput, -leftPower);
+    driveSlaveRight.set(ControlMode.PercentOutput, -rightPower);
+    */
+    driveMasterL.set(leftPower);
+    driveMasterR.set(rightPower);
+    driveSlaveL.follow(driveMasterL);
+    driveSlaveR.follow(driveMasterR);
+    if(limelight.getY() < 1 && limelight.getY() > -1){
+      turretMotor.set(ControlMode.PercentOutput, turretPower);
+    }
+    else{
+      turretMotor.set(ControlMode.PercentOutput, 0);
+    }
+
+  }
+  
+  public void Shift(boolean button){
+
+      if(button){
+        count+=1;
+      }
+
+      switch(count){
+        case 0:
+          toggle = 0;
+          break;
+        case 1:
+          toggle = 1;
+          break;
+        case 2:
+          toggle = 0;
+          count = 0;
+          break;
+      }
+      
+      switch(toggle){
+        case 0:
+          shifter.set(false);
+          break;
+        case 1:
+          shifter.set(true);
+          break;
+      }
+    } 
+
 }

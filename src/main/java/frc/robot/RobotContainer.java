@@ -19,21 +19,22 @@ import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.commands.*;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import java.lang.Math;
 
 public class RobotContainer{
 
     public TrajectoryFollowing pathfollower;
     public Joystick pad;
     public JoystickButton aPad;
-    public JoystickButton xPad;
-    public JoystickButton yPad;
+    public JoystickButton rBumper;
+    public JoystickButton lBumper;
 
     public RobotContainer(){
         pathfollower = new TrajectoryFollowing();
         pad = new Joystick(0);
         aPad = new JoystickButton(pad, 1);
-        xPad = new JoystickButton(pad, 4);
-        yPad = new JoystickButton(pad, 3);
+        rBumper = new JoystickButton(pad, 3);
+        lBumper = new JoystickButton(pad, 2);
 
     }
 
@@ -51,7 +52,7 @@ public class RobotContainer{
             10);
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.maxVelocity, 3).setKinematics(pathfollower.getKinematics()).addConstraint(autoVoltageConstraint);
 
-        Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(), new Pose2d(-.25, -.25, new Rotation2d(-90)), trajectoryConfig);
+        Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), List.of(new Translation2d(.5, 0)), new Pose2d(1, 0, new Rotation2d((0))), trajectoryConfig);
         
         RamseteCommand ramseteCommand = new RamseteCommand(traj, pathfollower::getPose, new RamseteController(2, 0.7), new SimpleMotorFeedforward(Constants.kVolts, Constants.kVSPM, Constants.kVSSPM), 
         pathfollower.getKinematics(), pathfollower::getSpeeds, new PIDController(Constants.kPDriveVelocity, 0, 0), new PIDController(Constants.kPDriveVelocity, 0, 0), pathfollower::tankDriveVolts, pathfollower);//add ref to differential drive object in trajectoryfollowing);
@@ -84,6 +85,13 @@ public class RobotContainer{
     public boolean rBumper(){
         return pad.getRawButton(6);
     }
+    public boolean yButton(){
+        return pad.getRawButton(4);
+    }
+    public boolean startButton(){
+        return pad.getRawButton(7);
+    }
+
 
 }
 

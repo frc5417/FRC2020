@@ -3,15 +3,17 @@ package frc.robot;
 import edu.wpi.first.wpilibj.kinematics.*;
 
 public class Constants {
-    public static final int masterRightMotor = 2; // actual 1 test 2
-    public static final int slaveRightMotor = 4; // actual 17 test 4
-    public static final int masterLeftMotor = 1; // actual 14 test 1
-    public static final int slaveLeftMotor = 3; // actual 15 test 3
+    public static final int masterRightMotor = 1; // actual 1 test 2
+    public static final int slaveRightMotor = 17; // actual 17 test 4
+    public static final int masterLeftMotor = 14; // actual 14 test 1
+    public static final int slaveLeftMotor = 15; // actual 15 test 3
     public static final int LClimb = 13;
     public static final int RClimb = 2;
     public static final int intakeMotor1 = 10;
     public static final int intakeMotor2 = 11;
     public static final int intakeMotor3 = 4;
+    public static final int shooterMaster = 12;
+    public static final int shooterSlave = 3;
 
     public static final double Kp = .02;
     public static final double min_command = .05;

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoAlign extends CommandBase {
   private final Limelight l;
+  double[] speed = new double[2];
   /**
    * Creates a new AutoAlign.
    */
@@ -30,7 +31,12 @@ public class AutoAlign extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.l.autoAlign();
+    speed = Robot.limelight.getSpeeds();
+
+    //commented out code for aligning and driving without turret
+    /*Robot.drive.SetPower(speed[0], speed[1]);*/
+
+    Robot.drive.autoPower(speed[0], speed[1], speed[2]);
   }
 
   // Called once the command ends or is interrupted.

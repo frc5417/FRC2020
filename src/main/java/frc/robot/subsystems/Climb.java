@@ -81,11 +81,29 @@ public class Climb extends SubsystemBase {
     }
     */
 
-    public void latch(double leftPower, double rightPower)
+    public void latch(double Power)
     {
-        motorR.set(rightPower);
-        motorL.set(leftPower);     
-
+      if(Power > 0){
+        motorR.set(-Power);
+        motorL.set(-Power);
+        System.out.println("latch function");
+      }
+      else{
+        motorR.set(0);
+        motorL.set(0);
+      }
+    }
+    public void unLatch(double Power)
+    {
+      if(Power > 0){
+        motorR.set(Power);
+        motorL.set(Power);
+        System.out.println("unlatch function");
+      }
+      else{
+        motorR.set(0);
+        motorL.set(0);
+      }
     }
 
 

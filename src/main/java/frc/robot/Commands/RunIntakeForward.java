@@ -27,8 +27,8 @@ public class RunIntakeForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.i.setIntakeSpeed(.2);
-    Robot.i.runIntakeSystem(Robot.r.lBumper());
+    Robot.intake.setIntakeSpeed(.2);
+    Robot.intake.runIntakeSystem(Robot.robotContainer.lBumper());
   }
 
   // Called once the command ends or is interrupted.

@@ -8,17 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.*;
 import frc.robot.Robot;
 
-public class RunIntakeBackwards extends CommandBase {
-
-   private final Intake i;
-
-  public RunIntakeBackwards(Intake subsystem) {
-    i = subsystem;
-    addRequirements(i);
+public class ClimbUnLatch extends CommandBase {
+  Climb c;
+  /**
+   * Creates a new ClimbUnLatch.
+   */
+  public ClimbUnLatch(Climb subsystem) {
+    c = subsystem;
+    addRequirements(c);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -29,13 +30,12 @@ public class RunIntakeBackwards extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    Robot.climb.unLatch(Robot.robotContainer.climbRPower());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.intake.setIntakeSpeed(.2);
-    Robot.intake.runIntakeSystemBackwards(Robot.robotContainer.rBumper());
   }
 
   // Returns true when the command should end.

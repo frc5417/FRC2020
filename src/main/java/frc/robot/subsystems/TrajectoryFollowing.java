@@ -29,11 +29,12 @@ public class TrajectoryFollowing extends SubsystemBase{
     VictorSPX driveSlaveLeft;
     VictorSPX driveSlaveRight;
 
-    AHRS gyro;
+    public AHRS gyro;
 
     DifferentialDriveKinematics kinematics;
     DifferentialDriveOdometry odometry;
     Pose2d pose;
+    public Rotation2d gyroAngle;
 
     Trajectory traj;
 
@@ -44,13 +45,15 @@ public class TrajectoryFollowing extends SubsystemBase{
         driveSlaveRight = new VictorSPX(Constants.slaveRightMotor);
         driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
 
+        
+
         gyro = new AHRS(Port.kMXP);
 
         kinematics = new DifferentialDriveKinematics(Constants.driveTrain_width);
         
         pose = new Pose2d();
 
-        resetOdometry(pose);
+        resetEncoders();
         zeroHeading();
 
         odometry = new DifferentialDriveOdometry(getHeading()/*, pose*/); //try with and without pose as argument
