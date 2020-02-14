@@ -68,7 +68,8 @@ public class Robot extends TimedRobot {
   NetworkTableEntry ta = table.getEntry("ta");
   NetworkTableEntry ts = table.getEntry("ts");
   NetworkTableEntry ledMode = table.getEntry("ledMode");
-  public static colorMotor colorMotor = new colorMotor();
+
+  public static colorMotor me_colorMotor = new colorMotor();
 
   public static Limelight l = new Limelight();
   public static Joystick pad = new Joystick(0);
@@ -78,7 +79,7 @@ public class Robot extends TimedRobot {
   public static RobotContainer r = new RobotContainer();
   public static Command a;
   public static ColorSensor m_ColorSensor = new ColorSensor();
-  public static Command colorMove = new colorMove(colorMotor);
+  public static Command colorMove = new colorMove(me_colorMotor);
   
   
   /*
@@ -137,6 +138,8 @@ public class Robot extends TimedRobot {
     //aut.setY(ty);
     //aut.printX();
     CommandScheduler.getInstance().run();
+
+    
 
 
     /*Moved to Color.java

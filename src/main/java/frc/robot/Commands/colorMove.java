@@ -32,11 +32,12 @@ public class colorMove extends CommandBase {
   public void execute() {
    
 
-    if (ColorSensor.numberOfChange < 3) {
-      m_colorMotor.driveFoward(0.2);
+    if (ColorSensor.numberOfChange < 6) {
+      m_colorMotor.driveFoward(1);
       System.out.println("Motor Is Moving");
     } else {
       m_colorMotor.driveFoward(0);
+      System.out.println("Motor has exceeded the amount that it needs to go");
     }
 
   }
