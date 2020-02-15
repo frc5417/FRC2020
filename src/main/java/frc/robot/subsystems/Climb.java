@@ -20,7 +20,6 @@ package frc.robot.subsystems;
 
 //Importing Packages For Solenoid And Spark(Neo) Motors
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
@@ -31,8 +30,6 @@ import frc.robot.Constants;
 public class Climb extends SubsystemBase {
     
   	//Initializes Solenoids and compressor pistons
-    //Solenoid climbPistonR = new Solenoid(0);
-    //Solenoid climbPistonL = new Solenoid(1);
 
     CANSparkMax motorR = new CANSparkMax(Constants.RClimb, MotorType.kBrushless);
     CANSparkMax motorL = new CANSparkMax(Constants.LClimb, MotorType.kBrushless);
@@ -81,12 +78,21 @@ public class Climb extends SubsystemBase {
     }
     */
 
-    public void latch(double Power)
+    public void latch(double leftPower, double rightPower)
     {
-      if(Power > 0){
-        motorR.set(-Power);
-        motorL.set(-Power);
+      if(leftPower > 0){
+        motorR.set(-leftPower);
+        motorL.set(-leftPower);
         System.out.println("latch function");
+      }
+      else{
+        motorR.set(0);
+        motorL.set(0);
+      }
+      if(rightPower > 0){
+        motorR.set(rightPower);
+        motorL.set(rightPower);
+        System.out.println("unlatch function");
       }
       else{
         motorR.set(0);

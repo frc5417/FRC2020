@@ -33,7 +33,7 @@ public class ClimbExtendLatch extends CommandBase {
   @Override
   public void execute() {
     //Robot.c.extend(Robot.r.bButton());
-    Robot.climb.latch(Robot.robotContainer.climbLPower());
+    Robot.climb.latch(Robot.robotContainer.climbLPower(), Robot.robotContainer.climbRPower());
   }
 
   // Called once the command ends or is interrupted.

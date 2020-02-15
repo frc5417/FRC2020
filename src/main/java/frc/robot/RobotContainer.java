@@ -20,21 +20,24 @@ import frc.robot.commands.*;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import java.lang.Math;
+import edu.wpi.first.wpilibj.Compressor;
 
 public class RobotContainer{
 
     public TrajectoryFollowing pathfollower;
     public Joystick pad;
     public JoystickButton aPad;
-    public JoystickButton rBumper;
-    public JoystickButton lBumper;
+    public JoystickButton xPad;
+    public JoystickButton bPad;
+    public JoystickButton yPad;
 
     public RobotContainer(){
         pathfollower = new TrajectoryFollowing();
         pad = new Joystick(0);
         aPad = new JoystickButton(pad, 1);
-        rBumper = new JoystickButton(pad, 3);
-        lBumper = new JoystickButton(pad, 2);
+        xPad = new JoystickButton(pad, 3);
+        bPad = new JoystickButton(pad, 2);
+        yPad = new JoystickButton(pad, 4);
 
     }
 
@@ -87,6 +90,9 @@ public class RobotContainer{
     }
     public boolean yButton(){
         return pad.getRawButton(4);
+    }
+    public boolean xButton(){
+        return pad.getRawButton(3);
     }
     public boolean startButton(){
         return pad.getRawButton(7);

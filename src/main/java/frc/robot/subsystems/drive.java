@@ -17,6 +17,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
 import java.lang.Math;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Compressor;
 import frc.robot.subsystems.*;
 
 /**
@@ -31,7 +32,8 @@ public class Drive extends SubsystemBase {
   CANSparkMax driveSlaveR = new CANSparkMax(Constants.slaveRightMotor, MotorType.kBrushless);
   CANSparkMax driveMasterL = new CANSparkMax(Constants.masterLeftMotor, MotorType.kBrushless);
   TalonSRX turretMotor = new TalonSRX(9);
-  Solenoid shifter = new Solenoid(0);
+  Solenoid shifter;
+  Compressor compressor;
   Limelight limelight = new Limelight();
   
   int count;
@@ -51,12 +53,10 @@ public class Drive extends SubsystemBase {
     driveSlaveRight.setNeutralMode(NeutralMode.Coast);
     driveSlaveLeft.setNeutralMode(NeutralMode.Coast);
 */
-    driveSlaveL.follow(driveMasterL);
-    driveSlaveR.follow(driveMasterR);
-    driveMasterL.setInverted(false);
-    driveMasterR.setInverted(true);
-    driveSlaveR.setInverted(true);
+
     turretMotor.setNeutralMode(NeutralMode.Coast);
+
+    shifter = new Solenoid(0);
 
     
   }
@@ -80,10 +80,10 @@ public class Drive extends SubsystemBase {
     }
     */
     
-      driveMasterL.set(Math.pow(leftPower, 3));
-      driveMasterR.set(Math.pow(rightPower, 3));
-      driveSlaveL.follow(driveMasterL);
-      driveSlaveR.follow(driveMasterR);
+      driveMasterL.set(-Math.pow(leftPower, 3));
+      driveMasterR.set(-Math.pow(rightPower, 3));
+      driveSlaveL.set(-Math.pow(leftPower, 3));
+      driveSlaveR.set(-Math.pow(rightPower, 3));
       
   }
   public void autoPower(double leftPower, double rightPower, double turretPower){
@@ -95,8 +95,8 @@ public class Drive extends SubsystemBase {
     */
     driveMasterL.set(leftPower);
     driveMasterR.set(rightPower);
-    driveSlaveL.follow(driveMasterL);
-    driveSlaveR.follow(driveMasterR);
+    driveSlaveL.set(leftPower);
+    driveSlaveR.set(rightPower);
     if(limelight.getY() < 1 && limelight.getY() > -1){
       turretMotor.set(ControlMode.PercentOutput, turretPower);
     }
@@ -134,5 +134,6 @@ public class Drive extends SubsystemBase {
           break;
       }
     } 
+    
 
 }

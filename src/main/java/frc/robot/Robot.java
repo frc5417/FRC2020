@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import edu.wpi.first.wpilibj.Compressor;
 
 
 /**
@@ -58,13 +59,16 @@ public class Robot extends TimedRobot {
   public static Command autonomous;
   public static Command align = new AutoAlign(limelight);
   public static Command tankDrive = new TankDrive(drive);
-  public static Command intakeF = new RunIntakeForward(intake);
-  public static Command intakeB = new RunIntakeBackwards(intake);
+  //public static Command intakeForward = new RunIntakeForward(intake);
+  //public static Command intakeBackward = new RunIntakeBackwards(intake);
   public static Command climbL = new ClimbExtendLatch(climb);
-  public static Command climbU = new ClimbUnLatch(climb);
-  //public static Command shift = new Shift(drive);
+  //public static Command climbU = new ClimbUnLatch(climb);
+  public static Command shift = new Shift(drive);
   public static Command shoot = new Shoot(intake);
+  public static Command intakeSystem = new RunIntakeSystem(intake);
   public static TrajectoryFollowing trajectoryFollowing = new TrajectoryFollowing();
+  public static Compressor compressor;
+  
 
   
   @Override
@@ -72,6 +76,11 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    compressor = new Compressor(0);
+    //compressor.clearAllPCMStickyFaults();
+    compressor.setClosedLoopControl(true);
+
 
   }
 
@@ -85,7 +94,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    
+    System.out.println(compressor.enabled());
+    System.out.println("break");
+    System.out.println(compressor.getCompressorNotConnectedFault());
+    System.out.println("break");
     limelight.setX(tx);
     limelight.setY(ty);
     limelight.setArea(ta);
@@ -136,13 +148,16 @@ public class Robot extends TimedRobot {
     tankDrive.schedule();
     //align.schedule();
     climbL.schedule();
-    climbU.schedule();
+    //climbU.schedule();
     //shift.schedule();
+    drive.Shift(robotContainer.startButton());
     drive.setDefaultCommand(tankDrive);
     robotContainer.aPad.whileHeld(align);
-    shoot.schedule();
-    //r.xPad.whileHeld(intakeF);
-    //r.yPad.whileHeld(intakeB);
+    //shoot.schedule();
+    intake.shoot(pad.getRawButton(4));
+    //intakeForward.schedule();
+    //intakeBackward.schedule();
+    intakeSystem.schedule();
     CommandScheduler.getInstance().run();
     
     
@@ -154,13 +169,12 @@ public class Robot extends TimedRobot {
       ledMode.setNumber(1);
     }
 
-    /*
-    i.runInternalBelt(pad.getRawButtonPressed(3)); 
-    i.runFeeder(pad.getRawButtonPressed(3)); //check this to make sure its the right button
-    i.runInternalBeltBackwards(pad.getRawButtonPressed(4));
-    i.runFeederBackwards(pad.getRawButtonPressed(4)); //check this to make sure its the right button
-    }
-    */
+    
+    //intake.runInternalBelt(pad.getRawButtonPressed(3)); 
+    //intake.runFeeder(pad.getRawButtonPressed(3)); //check this to make sure its the right button
+
+    
+    
 
 
 

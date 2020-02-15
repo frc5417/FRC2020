@@ -12,7 +12,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
 public class Shift extends CommandBase {
-  Drive d = new Drive();
+  Drive d;
   /**
    * Creates a new Shift.
    */

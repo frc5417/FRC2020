@@ -11,7 +11,7 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Shoot extends CommandBase {
-  Intake i = new Intake();
+  private final Intake i;
   /**
    * Creates a new Shoot.
    */
