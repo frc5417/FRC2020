@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
   public static colorMotor m_colorMotor = new colorMotor();  
   public static Command m_colorMove = new colorMove(m_colorMotor);
   public static JoystickButton colorButton = new JoystickButton(pad, 1);
-
+  public static String behindColor;
 
   
   
@@ -156,26 +156,30 @@ public class Robot extends TimedRobot {
     case 'B' :
       ColorSensor.targetColor = "Blue";
       colorMove.objective = "Positional";
+      behindColor = "Red";
       break;
     case 'G' :
       //Green case code
       ColorSensor.targetColor = "Green";
       colorMove.objective = "Positional";
+      behindColor = "Yellow";
       break;
     case 'R' :
       //Red case code
       ColorSensor.targetColor = "Red";
       colorMove.objective = "Positional";
+      behindColor = "Blue";
       break;
     case 'Y' :
       //Yellow case code
       ColorSensor.targetColor = "Yellow";
       colorMove.objective = "Positional";
+      behindColor = "Green";
       break;
     default :
      System.out.println("Wrong character recieved");
       break;
-  }
+      }
   } else {
     colorMove.objective = "Rotational";
     //Code for no data received yet

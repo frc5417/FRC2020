@@ -9,14 +9,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.colorMotor;
-import frc.robot.subsystems.ColorSensor;
+import frc.robot.subsystems.*;
 
 public class colorMove extends CommandBase {
   private final colorMotor m_colorMotor;
   //private int timeCounter = 0;
-  String colorOrder[] = new String[] {
-    "Blue", "Yellow", "Red", "Green"};
+  
   static public String objective;
 
   /**
@@ -30,6 +28,7 @@ public class colorMove extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -65,6 +64,15 @@ if (objective == "Rotational") {
       m_colorMotor.driveForward(0);
     }
   }
+
+/*
+  if (!ColorSensor.targetColor.equals(Robot.behindColor)) {
+    m_colorMotor.driveForward(0.2);
+  } else {
+    m_colorMotor.driveForward(0);
+  }
+*/
+  
 
   SmartDashboard.putString("Color Objective", objective);
 }

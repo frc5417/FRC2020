@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 //import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 // import edu.wpi.first.wpilibj.Talon;
 // import edu.wpi.first.wpilibj.Victor;
 import frc.robot.Constants;
@@ -30,10 +29,8 @@ public class colorMotor extends SubsystemBase {
   
 
   public colorMotor() {
-    System.out.println("The color motor has been initialized");
-    
-    
-  }
+    System.out.println("The color motor has been initialized"); 
+    }
 
   @Override
   public void periodic() {
@@ -42,10 +39,10 @@ public class colorMotor extends SubsystemBase {
 
   }
 
-  public void driveForward(double d) {
+  public void driveForward(double speed) {
     System.out.println("DriveForward is running");
-    m_leftMotor.set(ControlMode.PercentOutput, d);
-    m_rightMotor.set(ControlMode.PercentOutput, d);
+    m_leftMotor.set(ControlMode.PercentOutput, speed);
+    m_rightMotor.set(ControlMode.PercentOutput, speed);
 
   }
 
