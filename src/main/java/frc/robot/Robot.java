@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
   public static RobotContainer r = new RobotContainer();
   public static Command a;
   //color related commands/subsystems
- 
+  String gameData; //this will be a character obtained from Driverstation 
   public static ColorSensor m_ColorSensor = new ColorSensor();
   public static colorMotor m_colorMotor = new colorMotor();  
   public static Command m_colorMove = new colorMove(m_colorMotor);
@@ -147,7 +147,7 @@ public class Robot extends TimedRobot {
     //aut.printX();
     CommandScheduler.getInstance().run();
 
-    String gameData;
+    
   gameData = DriverStation.getInstance().getGameSpecificMessage();
   if(gameData.length() > 0)
   {

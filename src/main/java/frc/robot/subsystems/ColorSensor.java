@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 
 //importing main color libraries
 import com.revrobotics.ColorSensorV3;
@@ -9,10 +8,8 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 //importing color assist libraries
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.command.Command;
 // import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.util.Color;
 
 
@@ -69,12 +66,12 @@ public class ColorSensor extends SubsystemBase{
         } else {
             colorString = "Unknown";
         }
-
+        //code establishing the initial color that it sees
         if (!hasInitialColorBeenSet) {
             initialColor = colorString;
             hasInitialColorBeenSet = true;
         }
-
+        //code counting the number of times the color changes
         if (!colorString.equals(initialColor)) {
             if (controlBooleanCode) {
                 controlBooleanCode = false;
@@ -95,6 +92,7 @@ public class ColorSensor extends SubsystemBase{
         SmartDashboard.putNumber("Blue", detectedColor.blue);
         SmartDashboard.putNumber("Confidence", match.confidence);
         SmartDashboard.putString("Detected Color", colorString);
+        
     }
 
 }

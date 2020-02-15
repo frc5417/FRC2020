@@ -17,10 +17,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 // import edu.wpi.first.wpilibj.Talon;
 // import edu.wpi.first.wpilibj.Victor;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.subsystems.ColorSensor;
-import frc.robot.commands.*;
-import java.util.Arrays;
 
 public class colorMotor extends SubsystemBase {
   /**

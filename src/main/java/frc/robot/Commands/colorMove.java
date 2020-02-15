@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.colorMotor;
 import frc.robot.subsystems.ColorSensor;
@@ -14,7 +15,7 @@ import frc.robot.subsystems.ColorSensor;
 public class colorMove extends CommandBase {
   private final colorMotor m_colorMotor;
   //private int timeCounter = 0;
-  String colorList[] = new String[] {
+  String colorOrder[] = new String[] {
     "Blue", "Yellow", "Red", "Green"};
   static public String objective;
 
@@ -34,7 +35,8 @@ public class colorMove extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   /* timeCounter = timeCounter + 400;
+   /*   TIME BASED COUNTING, DONT WORRY
+   timeCounter = timeCounter + 400;
     System.out.println(timeCounter);
 
     if (timeCounter < 1000){
@@ -51,7 +53,7 @@ if (objective == "Rotational") {
   if (ColorSensor.numberOfChange < 3){
     m_colorMotor.driveForward(0.3);
     System.out.println("Motor Is Moving");
-  } else {
+   } else {
     m_colorMotor.driveForward(0);
     System.out.println("Motor has exceeded the amount that it needs to go");    
   }
@@ -63,6 +65,8 @@ if (objective == "Rotational") {
       m_colorMotor.driveForward(0);
     }
   }
+
+  SmartDashboard.putString("Color Objective", objective);
 }
 
 
