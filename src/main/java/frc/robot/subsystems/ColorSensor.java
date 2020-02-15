@@ -33,6 +33,8 @@ public class ColorSensor extends SubsystemBase{
     static boolean isColorTheInitial = true; // used to determine if the color has changed or not
     static boolean controlBooleanCode = true; // used as a control when counting the number of changes
     static boolean hasInitialColorBeenSet = false;
+    static public String sensedColor;
+    static public String targetColor;
     static public String initialColor; // used as a placeholder for what the first color the color sensors see is
     // public static Command colorMove = new colorMove(m_Drivetrain);
 
@@ -83,6 +85,8 @@ public class ColorSensor extends SubsystemBase{
         } else {
             controlBooleanCode = true;
         }
+
+        sensedColor = colorString;
 
         SmartDashboard.putString("Initial Color", initialColor);
         SmartDashboard.putNumber("Number of changes from the inital color, " + initialColor, numberOfChange);

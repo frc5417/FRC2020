@@ -16,6 +16,7 @@ public class colorMove extends CommandBase {
   //private int timeCounter = 0;
   String colorList[] = new String[] {
     "Blue", "Yellow", "Red", "Green"};
+  static public String objective;
 
   /**
    * Creates a new colorMove.
@@ -45,14 +46,25 @@ public class colorMove extends CommandBase {
     }
 
   }*/
-
+if (objective == "Rotational") {
+  
   if (ColorSensor.numberOfChange < 3){
-    m_colorMotor.driveFoward(0.3);
+    m_colorMotor.driveForward(0.3);
     System.out.println("Motor Is Moving");
   } else {
-    m_colorMotor.driveFoward(0);
-    System.out.println("Motor has exceeded the amount that it needs to go");
+    m_colorMotor.driveForward(0);
+    System.out.println("Motor has exceeded the amount that it needs to go");    
   }
+
+  if (objective == "Positional") {
+    if (!ColorSensor.targetColor.equals(ColorSensor.sensedColor)) {
+      m_colorMotor.driveForward(0.2);
+    } else {
+      m_colorMotor.driveForward(0);
+    }
+  }
+}
+
 
   }
   // Called once the command ends or is interrupted.

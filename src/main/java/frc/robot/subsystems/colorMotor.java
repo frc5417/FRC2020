@@ -45,7 +45,7 @@ public class colorMotor extends SubsystemBase {
 
   }
 
-  public void driveFoward(double d) {
+  public void driveForward(double d) {
     System.out.println("DriveForward is running");
     m_leftMotor.set(ControlMode.PercentOutput, d);
     m_rightMotor.set(ControlMode.PercentOutput, d);

@@ -147,6 +147,40 @@ public class Robot extends TimedRobot {
     //aut.printX();
     CommandScheduler.getInstance().run();
 
+    String gameData;
+  gameData = DriverStation.getInstance().getGameSpecificMessage();
+  if(gameData.length() > 0)
+  {
+  switch (gameData.charAt(0))
+  {
+    case 'B' :
+      ColorSensor.targetColor = "Blue";
+      colorMove.objective = "Positional";
+      break;
+    case 'G' :
+      //Green case code
+      ColorSensor.targetColor = "Green";
+      colorMove.objective = "Positional";
+      break;
+    case 'R' :
+      //Red case code
+      ColorSensor.targetColor = "Red";
+      colorMove.objective = "Positional";
+      break;
+    case 'Y' :
+      //Yellow case code
+      ColorSensor.targetColor = "Yellow";
+      colorMove.objective = "Positional";
+      break;
+    default :
+     System.out.println("Wrong character recieved");
+      break;
+  }
+  } else {
+    colorMove.objective = "Rotational";
+    //Code for no data received yet
+  }
+
     
 
 
