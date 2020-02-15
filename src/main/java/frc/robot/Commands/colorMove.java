@@ -13,6 +13,9 @@ import frc.robot.subsystems.ColorSensor;
 
 public class colorMove extends CommandBase {
   private final colorMotor m_colorMotor;
+  //private int timeCounter = 0;
+  String colorList[] = new String[] {
+    "Blue", "Yellow", "Red", "Green"};
 
   /**
    * Creates a new colorMove.
@@ -30,18 +33,28 @@ public class colorMove extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
+   /* timeCounter = timeCounter + 400;
+    System.out.println(timeCounter);
 
-    if (ColorSensor.numberOfChange < 6) {
-      m_colorMotor.driveFoward(1);
+    if (timeCounter < 1000){
+      m_colorMotor.driveFoward(0.3);
       System.out.println("Motor Is Moving");
     } else {
       m_colorMotor.driveFoward(0);
       System.out.println("Motor has exceeded the amount that it needs to go");
     }
 
+  }*/
+
+  if (ColorSensor.numberOfChange < 3){
+    m_colorMotor.driveFoward(0.3);
+    System.out.println("Motor Is Moving");
+  } else {
+    m_colorMotor.driveFoward(0);
+    System.out.println("Motor has exceeded the amount that it needs to go");
   }
 
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

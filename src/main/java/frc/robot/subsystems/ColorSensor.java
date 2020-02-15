@@ -1,16 +1,20 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
+
 //importing main color libraries
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 //importing color assist libraries
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.command.Command;
 // import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-// import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.util.Color;
+
 
 public class ColorSensor extends SubsystemBase{
     // Color ralated subsystems
@@ -43,8 +47,9 @@ public class ColorSensor extends SubsystemBase{
     }
 
     public void periodic() { 
+            
 
-        System.out.println("The Color Sensor has Ran");
+        
 
         // color related code goes after here
         final Color detectedColor = m_colorSensor.getColor();

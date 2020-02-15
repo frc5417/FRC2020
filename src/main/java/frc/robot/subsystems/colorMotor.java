@@ -17,7 +17,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 // import edu.wpi.first.wpilibj.Talon;
 // import edu.wpi.first.wpilibj.Victor;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.subsystems.ColorSensor;
+import frc.robot.commands.*;
+import java.util.Arrays;
 
 public class colorMotor extends SubsystemBase {
   /**
@@ -26,29 +29,38 @@ public class colorMotor extends SubsystemBase {
 
  
   private final TalonSRX m_leftMotor = new TalonSRX(Constants.m_colorMotorPort);
+  private final TalonSRX m_rightMotor = new TalonSRX(Constants.m_simulatedMotorPort);
+  
 
   public colorMotor() {
     System.out.println("The color motor has been initialized");
+    
+    
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    //Robot.colorButton.whenPressed(new colorMove(m_colorMotor));
 
   }
 
   public void driveFoward(double d) {
     System.out.println("DriveForward is running");
     m_leftMotor.set(ControlMode.PercentOutput, d);
+    m_rightMotor.set(ControlMode.PercentOutput, d);
 
   }
 
   public void returnMessage() {
-    if (ColorSensor.numberOfChange < 3) {
+    if (ColorSensor.numberOfChange < 2) {
       System.out.println("from returnMessage: The color has been changed" + ColorSensor.numberOfChange + " times from"
           + ColorSensor.initialColor);
+    } if (ColorSensor.numberOfChange<3) {
+      
     } else {
+      
     }
-  }
+   }
 
 }
