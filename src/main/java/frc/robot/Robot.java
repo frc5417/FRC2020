@@ -139,16 +139,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    l.setX(tx);
-    l.setY(ty);
-    l.setArea(ta);
-    l.setV(tv);
-    //aut.setY(ty);
-    //aut.printX();
-    CommandScheduler.getInstance().run();
-
-    
-  gameData = DriverStation.getInstance().getGameSpecificMessage();
+    gameData = DriverStation.getInstance().getGameSpecificMessage();
   if(gameData.length() > 0)
   {
   switch (gameData.charAt(0))
@@ -184,6 +175,17 @@ public class Robot extends TimedRobot {
     colorMove.objective = "Rotational";
     //Code for no data received yet
   }
+    l.setX(tx);
+    l.setY(ty);
+    l.setArea(ta);
+    l.setV(tv);
+    //aut.setY(ty);
+    //aut.printX();
+    SmartDashboard.putString("Color Objective", colorMove.objective);
+    CommandScheduler.getInstance().run();
+
+    
+  
 
     
 
@@ -269,9 +271,11 @@ public class Robot extends TimedRobot {
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
+        System.out.println("CustonAuto - There is no code lol");
         break;
       case kDefaultAuto:
       default:
+      System.out.println("DefaultAuton - There is no code lol");
         // Put default auto code here
         break;
     }
@@ -284,6 +288,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     
     m_colorMove.schedule();
+
+    
     
     //m_colorMove.color
     

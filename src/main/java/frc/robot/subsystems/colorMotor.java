@@ -22,8 +22,6 @@ public class colorMotor extends SubsystemBase {
   /**
    * Creates a new colorMotor.
    */
-
- 
   private final TalonSRX m_leftMotor = new TalonSRX(Constants.m_colorMotorPort);
   private final TalonSRX m_rightMotor = new TalonSRX(Constants.m_simulatedMotorPort);
   
@@ -40,7 +38,6 @@ public class colorMotor extends SubsystemBase {
   }
 
   public void driveForward(double speed) {
-    System.out.println("DriveForward is running");
     m_leftMotor.set(ControlMode.PercentOutput, speed);
     m_rightMotor.set(ControlMode.PercentOutput, speed);
 

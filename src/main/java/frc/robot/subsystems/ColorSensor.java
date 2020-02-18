@@ -25,6 +25,7 @@ public class ColorSensor extends SubsystemBase{
     private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
     private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
     private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+
     // for the color change count vairables
     static public int numberOfChange = 0;
     static boolean isColorTheInitial = true; // used to determine if the color has changed or not
@@ -45,11 +46,7 @@ public class ColorSensor extends SubsystemBase{
 
     }
 
-    public void periodic() { 
-            
-
-        
-
+    public void periodic() {                  
         // color related code goes after here
         final Color detectedColor = m_colorSensor.getColor();
         String colorString;
