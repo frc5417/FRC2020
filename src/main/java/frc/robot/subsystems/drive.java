@@ -36,8 +36,8 @@ public class Drive extends SubsystemBase {
   Compressor compressor;
   Limelight limelight = new Limelight();
   
-  int count;
-  int toggle;
+  public int count = 0;
+  boolean toggle = false;
 /*
   TalonSRX driveMasterRight = new TalonSRX(Constants.masterRightMotor);
   TalonSRX driveMasterLeft = new TalonSRX(Constants.masterLeftMotor);
@@ -86,7 +86,7 @@ public class Drive extends SubsystemBase {
       driveSlaveR.set(-Math.pow(rightPower, 3));
       
   }
-  public void autoPower(double leftPower, double rightPower, double turretPower){
+  public void autoPower(double leftPower, double rightPower){
     /*
     driveMasterLeft.set(ControlMode.PercentOutput, leftPower);
     driveMasterRight.set(ControlMode.PercentOutput, -rightPower);
@@ -97,42 +97,47 @@ public class Drive extends SubsystemBase {
     driveMasterR.set(rightPower);
     driveSlaveL.set(leftPower);
     driveSlaveR.set(rightPower);
-    if(limelight.getY() < 1 && limelight.getY() > -1){
+    /*if(limelight.getY() < 1 && limelight.getY() > -1){
       turretMotor.set(ControlMode.PercentOutput, turretPower);
     }
     else{
       turretMotor.set(ControlMode.PercentOutput, 0);
-    }
+    }*/
 
   }
   
   public void Shift(boolean button){
 
-      if(button){
-        count+=1;
-      }
+        if(button){
+          if(toggle = false){
+            count = 1;
+          }
+          else{
+            count = 0;
+          }
+        }
+        
+        switch(count){
+          case 0:
+            toggle = false;
+            break;
+          case 1:
+            toggle = true;
+            break;
+          default:
+            toggle = false;
+            break;
+        }
 
-      switch(count){
-        case 0:
-          toggle = 0;
-          break;
-        case 1:
-          toggle = 1;
-          break;
-        case 2:
-          toggle = 0;
-          count = 0;
-          break;
-      }
-      
-      switch(toggle){
-        case 0:
-          shifter.set(false);
-          break;
-        case 1:
+        if(toggle){
           shifter.set(true);
-          break;
-      }
+        }
+        else{
+          shifter.set(false);
+        }
+
+
+      
     } 
     
 

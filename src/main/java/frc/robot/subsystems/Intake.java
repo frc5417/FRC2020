@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,7 +27,7 @@ public class Intake extends SubsystemBase {
 
   //feel free to change these names, they might suck
 
-    double intakeSpeed = .5;
+    double intakeSpeed = 1;
     double feederSpeed = .3;
     public int count = 0;
 
@@ -35,11 +36,19 @@ public class Intake extends SubsystemBase {
     WPI_VictorSPX feeder = new WPI_VictorSPX(Constants.intakeMotorBottom);//the one that puts it in the shooter
     CANSparkMax masterShoot =  new CANSparkMax(Constants.shooterMaster, MotorType.kBrushless);
     CANSparkMax slaveShoot =  new CANSparkMax(Constants.shooterSlave, MotorType.kBrushless);
+    double setPoint;
     
     public Intake(){
       rollerBar.setNeutralMode(NeutralMode.Coast);
       internalBelt.setNeutralMode(NeutralMode.Coast);
       feeder.setNeutralMode(NeutralMode.Coast);
+      masterShoot.getPIDController().setFF(Constants.shootkFF);
+      slaveShoot.getPIDController().setFF(Constants.shootkFF);
+      masterShoot.getPIDController().setP(Constants.shootkP);
+      slaveShoot.getPIDController().setP(Constants.shootkP);
+      masterShoot.getPIDController().setI(Constants.shootkI);
+      slaveShoot.getPIDController().setI(Constants.shootkI);
+      setPoint = Constants.shootsetPointConstant*Constants.shootMaxRPM;
     }
     
     // Use Victor.follow() for master/slave stuff}
@@ -117,11 +126,18 @@ public class Intake extends SubsystemBase {
 
   public void shoot(boolean button){
     if(button){
+      /*
       masterShoot.set(-1);
       slaveShoot.set(-1);
-      if(count >= 1000){
+            */
+      System.out.println(masterShoot.getEncoder().getVelocity() + " Motor ID: 12");
+      System.out.println(slaveShoot.getEncoder().getVelocity() + " Motor ID: 3");
+      masterShoot.getPIDController().setReference(setPoint, ControlType.kVelocity);
+      slaveShoot.follow(masterShoot);
+
+      if(masterShoot.getEncoder().getVelocity() <= (Constants.shootsetPointConstant + 500) && masterShoot.getEncoder().getVelocity() >= (Constants.shootsetPointConstant - 500)){
         internalBelt.set(intakeSpeed);
-        feeder.set(intakeSpeed);
+        feeder.follow(internalBelt);
       }
       else{
         internalBelt.set(0);

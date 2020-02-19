@@ -5,23 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 import frc.robot.Robot;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ClimbExtendLatch extends CommandBase {
-  private final Climb c;
-  /*
-   * Creates a new ClimbExtendLatch.
-   */ 
-   
-  public ClimbExtendLatch(Climb subsystem) {
-    c = subsystem;
-    addRequirements(c);
+public class MoveTurret extends CommandBase {
+
+  private final Turret turret;
+  /**
+   * Creates a new MoveTurret.
+   */
+  public MoveTurret(Turret subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    turret = subsystem;
+    addRequirements(turret);
   }
 
   // Called when the command is initially scheduled.
@@ -32,8 +31,7 @@ public class ClimbExtendLatch extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Robot.c.extend(Robot.r.bButton());
-    Robot.climb.latch(Robot.robotContainer.climbLPowerM(), Robot.robotContainer.climbRPowerM());
+    Robot.turret.setTurretPower(Robot.robotContainer.turretSpeed());
   }
 
   // Called once the command ends or is interrupted.
@@ -47,4 +45,3 @@ public class ClimbExtendLatch extends CommandBase {
     return false;
   }
 }
-

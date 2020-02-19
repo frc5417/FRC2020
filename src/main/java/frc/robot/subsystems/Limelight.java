@@ -17,6 +17,8 @@ import frc.robot.Constants;
 
 public class Limelight extends SubsystemBase {
 
+    double distanceError;
+
     // Horizontal Offset variable
     double x;
 
@@ -72,7 +74,7 @@ public class Limelight extends SubsystemBase {
     // Will need to change, values to calculate robot stopping distance from target
     h1 = 6;
     h2 = 81.24;
-    idealDistance = 12;
+    idealDistance = 60;
     a = 30;
 
 
@@ -114,12 +116,29 @@ public class Limelight extends SubsystemBase {
       System.out.println(x);
     }
 
+    public double estimateDistance(){
+      return (Constants.targetHeight - Constants.limelightHeight) / Math.tan(Constants.limelightAngle + y);
+    }
+
+    public void distanceSwap(boolean buttonDFar, boolean buttonDSmall){
+      if(buttonDFar){
+        idealDistance = 12;
+      }
+      if(buttonDSmall){
+        idealDistance = 3;
+      }
+    }
+    public double getIdealDistance(){
+      return idealDistance;
+    }
+
+
     // Program to allow the drivers to auto align based on the target
     public double[] getSpeeds(){
 
       // Constants used to calculate motor power for alignment
       Double Kp = -Constants.Kp;
-      Double KpDistance = -.01;
+      Double KpDistance = -.02;
       //Double area_error = 3 - area;
       Double distance_adjust = Constants.distance_adjust;
       Double min_command = Constants.min_command;
@@ -134,7 +153,7 @@ public class Limelight extends SubsystemBase {
 
         // Set heading error and the steering adjust
         Double heading_error = -x;
-        Double distance_error = -y;
+        Double distance_error = estimateDistance() - getIdealDistance();
         Double steering_adjust = 0.075;
         // Determine power based on the horizontal offset
         if (x > 1.0)
@@ -148,15 +167,15 @@ public class Limelight extends SubsystemBase {
         
         distance_adjust = KpDistance * distance_error;
 
-        left_command += -(steering_adjust - distance_adjust);
-        right_command += -(distance_adjust + steering_adjust);
+        left_command += steering_adjust + distance_adjust;
+        right_command += distance_adjust - steering_adjust;
         /*left_command -= distance_adjust;
         right_command += distance_adjust;
         turret_command += steering_adjust;*/
         double[] wheelSpeeds = new double[3];
         wheelSpeeds[0] = left_command;
         wheelSpeeds[1] = right_command;
-        wheelSpeeds[2] = turret_command;
+        //wheelSpeeds[2] = turret_command;
   
         // Determine distance to stop based on area of image seen
         /*if (area > .25){
@@ -181,10 +200,3 @@ public class Limelight extends SubsystemBase {
       }
 
     }
-  
-
-
-    
-
-
-// atiksh is dumb/test

@@ -36,7 +36,7 @@ public class AutoAlign extends CommandBase {
     //commented out code for aligning and driving without turret
     /*Robot.drive.SetPower(speed[0], speed[1]);*/
 
-    Robot.drive.autoPower(speed[0], speed[1], speed[2]);
+    Robot.drive.autoPower(speed[0], speed[1]);
   }
 
   // Called once the command ends or is interrupted.

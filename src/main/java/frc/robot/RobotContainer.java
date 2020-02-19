@@ -26,18 +26,22 @@ public class RobotContainer{
 
     public TrajectoryFollowing pathfollower;
     public Joystick pad;
-    public JoystickButton aPad;
-    public JoystickButton xPad;
-    public JoystickButton bPad;
-    public JoystickButton yPad;
+    public Joystick padManipulator;
+    public JoystickButton aPadM;
+    public JoystickButton xPadM;
+    public JoystickButton bPadM;
+    public JoystickButton yPadM;
+    public JoystickButton rBumperM;
 
     public RobotContainer(){
         pathfollower = new TrajectoryFollowing();
         pad = new Joystick(0);
-        aPad = new JoystickButton(pad, 1);
-        xPad = new JoystickButton(pad, 3);
-        bPad = new JoystickButton(pad, 2);
-        yPad = new JoystickButton(pad, 4);
+        padManipulator = new Joystick(1);
+        aPadM = new JoystickButton(padManipulator, 1);
+        xPadM = new JoystickButton(padManipulator, 3);
+        bPadM = new JoystickButton(padManipulator, 2);
+        yPadM = new JoystickButton(padManipulator, 4);
+        rBumperM = new JoystickButton(padManipulator, 6);
 
     }
 
@@ -71,32 +75,39 @@ public class RobotContainer{
     public double rightSpeed(){
         return pad.getRawAxis(5);
     }
-    public double climbRPower(){
-        return pad.getRawAxis(3);
+    public double climbRPowerM(){
+        return padManipulator.getRawAxis(3);
     }
-    public double climbLPower(){
-        return pad.getRawAxis(2);
+    public double climbLPowerM(){
+        return padManipulator.getRawAxis(2);
     }
-    public boolean bButton(){
-        return pad.getRawButton(2);
+    public boolean bButtonM(){
+        return padManipulator.getRawButton(2);
     }
 
     public boolean lBumper(){
         return pad.getRawButton(5);
     }
 
-    public boolean rBumper(){
-        return pad.getRawButton(6);
+    public boolean rBumperM(){
+        return padManipulator.getRawButton(6);
     }
     public boolean yButton(){
         return pad.getRawButton(4);
     }
-    public boolean xButton(){
-        return pad.getRawButton(3);
+    public boolean xButtonM(){
+        return padManipulator.getRawButton(3);
     }
     public boolean startButton(){
         return pad.getRawButton(7);
     }
+    public boolean aButtonM(){
+        return padManipulator.getRawButton(1);
+    }
+
+    public double turretSpeed(){
+        return padManipulator.getRawAxis(5); // right side
+   }
 
 
 }

@@ -55,6 +55,7 @@ public class Robot extends TimedRobot {
   public static Drive drive = new Drive();
   public static Climb climb = new Climb();
   public static Intake intake = new Intake();
+  public static Turret turret = new Turret();
   public static RobotContainer robotContainer = new RobotContainer();
   public static Command autonomous;
   public static Command align = new AutoAlign(limelight);
@@ -66,8 +67,10 @@ public class Robot extends TimedRobot {
   public static Command shift = new Shift(drive);
   public static Command shoot = new Shoot(intake);
   public static Command intakeSystem = new RunIntakeSystem(intake);
+  public static Command moveTurret = new MoveTurret(turret);
   public static TrajectoryFollowing trajectoryFollowing = new TrajectoryFollowing();
   public static Compressor compressor;
+  
   
 
   
@@ -78,7 +81,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     compressor = new Compressor(0);
-    //compressor.clearAllPCMStickyFaults();
+    compressor.clearAllPCMStickyFaults();
     compressor.setClosedLoopControl(true);
 
 
@@ -94,10 +97,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    System.out.println(compressor.enabled());
-    System.out.println("break");
-    System.out.println(compressor.getCompressorNotConnectedFault());
-    System.out.println("break");
+
     limelight.setX(tx);
     limelight.setY(ty);
     limelight.setArea(ta);
@@ -149,19 +149,19 @@ public class Robot extends TimedRobot {
     //align.schedule();
     climbL.schedule();
     //climbU.schedule();
-    //shift.schedule();
-    drive.Shift(robotContainer.startButton());
+    robotContainer.rBumperM.whenActive(shift);
     drive.setDefaultCommand(tankDrive);
-    robotContainer.aPad.whileHeld(align);
-    //shoot.schedule();
-    intake.shoot(pad.getRawButton(4));
+    robotContainer.aPadM.whileHeld(align);
+    robotContainer.yPadM.whileHeld(shoot);
     //intakeForward.schedule();
     //intakeBackward.schedule();
-    intakeSystem.schedule();
+    robotContainer.xPadM.whileHeld(intakeSystem);
+    robotContainer.bPadM.whileHeld(intakeSystem);
+    moveTurret.schedule();
     CommandScheduler.getInstance().run();
     
     
-    if (pad.getRawButton(1)){
+    if (robotContainer.aButtonM()){
       
       ledMode.setNumber(3);
     }

@@ -30,7 +30,7 @@ public class RunIntakeSystem extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.intake.runIntakeSystem(Robot.robotContainer.xButton(), Robot.robotContainer.bButton());
+    Robot.intake.runIntakeSystem(Robot.robotContainer.xButtonM(), Robot.robotContainer.bButtonM());
   }
 
   // Called once the command ends or is interrupted.
