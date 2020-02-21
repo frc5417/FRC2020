@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoAlign extends CommandBase {
   private final Limelight l;
-  double[] speed = new double[2];
+  double[] speed = new double[3];
   /**
    * Creates a new AutoAlign.
    */
