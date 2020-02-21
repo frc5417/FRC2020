@@ -3,10 +3,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.kinematics.*;
 
 public class Constants {
-    public static final int masterRightMotor = 1; // actual 1 test 2
-    public static final int slaveRightMotor = 17; // actual 17 test 4
-    public static final int masterLeftMotor = 14; // actual 14 test 1
-    public static final int slaveLeftMotor = 15; // actual 15 test 3
+    public static final int masterRightMotor = 2; // actual 1 test 2
+    public static final int slaveRightMotor = 4; // actual 17 test 4
+    public static final int masterLeftMotor = 1; // actual 14 test 1
+    public static final int slaveLeftMotor = 3; // actual 15 test 3
     public static final int LClimb = 13;
     public static final int RClimb = 2;
     public static final int intakeRoller = 11;
@@ -16,8 +16,8 @@ public class Constants {
     public static final int shooterSlave = 3;
     public static final int turretPort = 9;
 
-    public static final double Kp = .03;
-    public static final double min_command = .1;
+    public static final double Kp = .05;
+    public static final double min_command = .05; //real bot .1
     public static final double distance_adjust = .05;
     public static final double ticksPerRev = 12.0; // Without Gear Reduction
     public static final double maxVelocity = 9.0; // meters per sec

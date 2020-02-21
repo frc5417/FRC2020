@@ -80,10 +80,9 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    compressor = new Compressor(0);
-    compressor.clearAllPCMStickyFaults();
-    compressor.setClosedLoopControl(true);
-
+    //compressor = new Compressor(0);
+    //compressor.clearAllPCMStickyFaults();
+    //compressor.setClosedLoopControl(true);
 
 
   }
@@ -148,16 +147,17 @@ public class Robot extends TimedRobot {
     intake.count += 20;
     tankDrive.schedule();
     //align.schedule();
-    climbL.schedule();
+    //climbL.schedule();
     //climbU.schedule();
-    drive.Shift(robotContainer.rBumper());
+    //robotContainer.rBumperM.whenActive(shift);
     drive.setDefaultCommand(tankDrive);
-    robotContainer.aPadM.whenHeld(align);
-    robotContainer.yPadM.whenHeld(shoot);
+    robotContainer.aPadM.whileHeld(align);
+    //robotContainer.yPadM.whileHeld(shoot);
     //intakeForward.schedule();
     //intakeBackward.schedule();
-    intakeSystem.schedule();
-    moveTurret.schedule();
+    //robotContainer.xPadM.whileHeld(intakeSystem);
+    //robotContainer.bPadM.whileHeld(intakeSystem);
+    //moveTurret.schedule();
     CommandScheduler.getInstance().run();
     
     
@@ -166,7 +166,7 @@ public class Robot extends TimedRobot {
       ledMode.setNumber(3);
     }
     else{
-      ledMode.setNumber(1);
+      ledMode.setNumber(3);
     }
 
     
