@@ -85,6 +85,7 @@ public class Robot extends TimedRobot {
     compressor.setClosedLoopControl(true);
 
 
+
   }
 
   /**
@@ -149,14 +150,13 @@ public class Robot extends TimedRobot {
     //align.schedule();
     climbL.schedule();
     //climbU.schedule();
-    robotContainer.rBumperM.whenActive(shift);
+    drive.Shift(robotContainer.rBumper());
     drive.setDefaultCommand(tankDrive);
-    robotContainer.aPadM.whileHeld(align);
-    robotContainer.yPadM.whileHeld(shoot);
+    robotContainer.aPadM.whenHeld(align);
+    robotContainer.yPadM.whenHeld(shoot);
     //intakeForward.schedule();
     //intakeBackward.schedule();
-    robotContainer.xPadM.whileHeld(intakeSystem);
-    robotContainer.bPadM.whileHeld(intakeSystem);
+    intakeSystem.schedule();
     moveTurret.schedule();
     CommandScheduler.getInstance().run();
     

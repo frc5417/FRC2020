@@ -36,8 +36,8 @@ public class Drive extends SubsystemBase {
   Compressor compressor;
   Limelight limelight = new Limelight();
   
-  public int count = 0;
-  boolean toggle = false;
+  boolean controlToggle = false;
+  boolean toggle = true;
 /*
   TalonSRX driveMasterRight = new TalonSRX(Constants.masterRightMotor);
   TalonSRX driveMasterLeft = new TalonSRX(Constants.masterLeftMotor);
@@ -107,9 +107,9 @@ public class Drive extends SubsystemBase {
   }
   
   public void Shift(boolean button){
-
+/*
         if(button){
-          if(toggle = false){
+          if(toggle == false){
             count = 1;
           }
           else{
@@ -137,8 +137,25 @@ public class Drive extends SubsystemBase {
         }
 
 
-      
+    */  
+
+        if(toggle && button){
+          toggle = false;
+          if(controlToggle){
+            controlToggle = false;
+            shifter.set(true);            
+          }
+          else{
+            controlToggle = true;
+            shifter.set(false);
+          }
+        }
+        else if(button == false){
+          toggle = true;
+        }
+
     } 
+    
     
 
 }
