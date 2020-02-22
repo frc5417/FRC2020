@@ -12,17 +12,23 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-//import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+//import edu.wpi.first.hal.SolenoidJNI;
+import edu.wpi.first.wpilibj.Solenoid;
 // import edu.wpi.first.wpilibj.Talon;
 // import edu.wpi.first.wpilibj.Victor;
 import frc.robot.Constants;
 import frc.robot.subsystems.ColorSensor;
+
 
 public class colorMotor extends SubsystemBase {
   /**
    * Creates a new colorMotor.
    */
   private final TalonSRX m_leftMotor = new TalonSRX(Constants.m_colorMotorPort);
+ // private final Solenoid m_colorSolenoid = new Solenoid(1);
+
   private final TalonSRX m_rightMotor = new TalonSRX(Constants.m_simulatedMotorPort);
   
 
@@ -34,11 +40,13 @@ public class colorMotor extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     //Robot.colorButton.whenPressed(new colorMove(m_colorMotor));
-
-  }
+   // m_colorSolenoid.set(true);
+  
+}
 
   public void driveForward(double speed) {
     m_leftMotor.set(ControlMode.PercentOutput, speed);
+    System.out.println("Driveforward has been ran");
     m_rightMotor.set(ControlMode.PercentOutput, speed);
 
   }

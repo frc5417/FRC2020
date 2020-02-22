@@ -47,12 +47,13 @@ public class colorMove extends CommandBase {
     }
 
   }*/
+
 if (objective.equals("Rotational")) {  
   if (ColorSensor.numberOfChange < 3){
-    //m_colorMotor.driveForward(0.2);
+    m_colorMotor.driveForward(0.3);
     System.out.println("Motor Is Moving in Rotational");
    } else {
-    //m_colorMotor.driveForward(0);
+    m_colorMotor.driveForward(0);
     System.out.println("Motor has exceeded the amount that it needs to go in Rotational");    
    }
   
@@ -61,7 +62,7 @@ if (objective.equals("Rotational")) {
 if (objective.equals("Positional")) {
     if (!ColorSensor.targetColor.equals(ColorSensor.sensedColor)) {
       System.out.println("Positional - color is not equal");
-      m_colorMotor.driveForward(0.2);
+      m_colorMotor.driveForward(0.3);
       
     } else {
       System.out.println("Positional - color IS equal");
