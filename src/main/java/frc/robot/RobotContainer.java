@@ -75,10 +75,10 @@ public class RobotContainer{
     public double rightSpeed(){
         return pad.getRawAxis(5);
     }
-    public double climbRPowerM(){
+    public double rTriggerM(){
         return padManipulator.getRawAxis(3);
     }
-    public double climbLPowerM(){
+    public double lTriggerM(){
         return padManipulator.getRawAxis(2);
     }
     public boolean bButtonM(){
@@ -92,6 +92,14 @@ public class RobotContainer{
     public boolean rBumper(){
         return pad.getRawButton(6);
     }
+    public boolean lBumperM(){
+        return padManipulator.getRawButton(5);
+    }
+
+    public boolean rBumperM(){
+        return padManipulator.getRawButton(6);
+    }
+
     public boolean yButton(){
         return pad.getRawButton(4);
     }
@@ -107,11 +115,11 @@ public class RobotContainer{
 
     public double turretSpeed(){
         return padManipulator.getRawAxis(5); // right side
-   }
+    }
 
-   public boolean yButtonManipulator(){
-    return padManipulator.getRawButton(4);
-   }
+    public boolean yButtonM(){
+        return padManipulator.getRawButton(4);
+    }
 
 }
 

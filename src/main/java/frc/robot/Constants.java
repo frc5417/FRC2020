@@ -46,9 +46,9 @@ public class Constants {
     public static final double shootkI = 7e-52;
     public static final double shootkD = 0; 
     public static final double shootkIz = 0; 
-    public static final double shootkFF = 19e-9;  
+    public static final double shootkFF = 36e-9;  
     public static final double shootkMaxOutput = 1; 
     public static final double shootkMinOutput = -1;
     public static final double shootMaxRPM = 5700;
-    public static final double shootsetPointConstant = -4000;
+    public static final double shootsetPointConstant = -2800;
 }

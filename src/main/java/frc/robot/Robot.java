@@ -149,17 +149,15 @@ public class Robot extends TimedRobot {
     intake.count += 20;
     tankDrive.schedule();
     //align.schedule();
-    //climbL.schedule();
+    climbL.schedule();
     //climbU.schedule();
     drive.shift(robotContainer.rBumper());
     drive.setDefaultCommand(tankDrive);
     robotContainer.aPadM.whileHeld(align);
-    //robotContainer.yPadM.whileHeld(shoot);
-    shoot.schedule();
+    intake.shoot(robotContainer.yButtonM());
     //intakeForward.schedule();
     //intakeBackward.schedule();
-    robotContainer.xPadM.whileHeld(intakeSystem);
-    robotContainer.bPadM.whileHeld(intakeSystem);
+    intakeSystem.schedule();
     //moveTurret.schedule();
     CommandScheduler.getInstance().run();
     

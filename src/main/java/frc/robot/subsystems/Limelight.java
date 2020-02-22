@@ -157,7 +157,7 @@ public class Limelight extends SubsystemBase {
 
         // Set heading error and the steering adjust
         Double heading_error = -x;
-         Double distance_error = -y;
+        Double distance_error = -y;
          //Double distance_error = estimateDistance() - getIdealDistance();
         Double steering_adjust = 0.075;
         // Determine power based on the horizontal offset
@@ -189,13 +189,13 @@ public class Limelight extends SubsystemBase {
           driving_adjust = KpDistance * area_error - min_command;
   
         }*/
-  
+
         // Run motors if the target is seen 
         if (v == 1){
           return wheelSpeeds;
   
         }
-      
+      //hi again
       
         else
         {

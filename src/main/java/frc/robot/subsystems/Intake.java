@@ -145,10 +145,10 @@ public class Intake extends SubsystemBase {
         feeder.set(0);
       }
     }
-    else if(!button){
+    else{
       masterShoot.set(0);
       masterShoot.getPIDController().setReference(0, ControlType.kVelocity);
-      slaveShoot.set(0);
+      //slaveShoot.set(0);
       internalBelt.set(0);
       feeder.set(0);
       count = 0;
