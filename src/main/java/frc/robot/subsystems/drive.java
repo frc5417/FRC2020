@@ -27,36 +27,36 @@ public class Drive extends SubsystemBase {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
-  /*CANSparkMax driveSlaveL = new CANSparkMax(Constants.slaveLeftMotor, MotorType.kBrushless);
+  CANSparkMax driveSlaveL = new CANSparkMax(Constants.slaveLeftMotor, MotorType.kBrushless);
   CANSparkMax driveMasterR = new CANSparkMax(Constants.masterRightMotor, MotorType.kBrushless);
   CANSparkMax driveSlaveR = new CANSparkMax(Constants.slaveRightMotor, MotorType.kBrushless);
   CANSparkMax driveMasterL = new CANSparkMax(Constants.masterLeftMotor, MotorType.kBrushless);
   TalonSRX turretMotor = new TalonSRX(9);
   Solenoid shifter;
-  Compressor compressor;*/
+  Compressor compressor;
   Limelight limelight = new Limelight();
   
-  public int count = 0;
-  boolean toggle = false;
-
+  boolean shifterFlag = false;
+  boolean toggle = true;
+/*
   TalonSRX driveMasterRight = new TalonSRX(Constants.masterRightMotor);
   TalonSRX driveMasterLeft = new TalonSRX(Constants.masterLeftMotor);
   VictorSPX driveSlaveRight = new VictorSPX(Constants.slaveRightMotor);
   VictorSPX driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
-
+*/
 
   public Drive(){
   
-
+/*
     driveMasterRight.setNeutralMode(NeutralMode.Coast);
     driveMasterLeft.setNeutralMode(NeutralMode.Coast);
     driveSlaveRight.setNeutralMode(NeutralMode.Coast);
     driveSlaveLeft.setNeutralMode(NeutralMode.Coast);
+*/
 
+    turretMotor.setNeutralMode(NeutralMode.Coast);
 
-    /*turretMotor.setNeutralMode(NeutralMode.Coast);
-
-    shifter = new Solenoid(0);*/
+    shifter = new Solenoid(0);
 
     
   }
@@ -64,12 +64,17 @@ public class Drive extends SubsystemBase {
 
   public void SetPower(double leftPower, double rightPower){
     //if (!((leftPower < .1)&&(leftPower > -.1) || (rightPower < .1)&&(rightPower > -.1))){
-      
+    /*  
     driveMasterLeft.set(ControlMode.PercentOutput, -leftPower);
     driveMasterRight.set(ControlMode.PercentOutput, -rightPower);
     driveSlaveLeft.set(ControlMode.PercentOutput, leftPower);
     driveSlaveRight.set(ControlMode.PercentOutput, -rightPower);
-    
+    */
+
+    driveMasterL.set(-Math.pow(leftPower, 3));
+    driveMasterR.set(-Math.pow(rightPower, 3));
+    driveSlaveL.set(-Math.pow(leftPower, 3));
+    driveSlaveR.set(-Math.pow(rightPower, 3));
     
     }
     /*else{
@@ -80,23 +85,20 @@ public class Drive extends SubsystemBase {
     }*/
     
     
-      /*driveMasterL.set(-Math.pow(leftPower, 3));
-      driveMasterR.set(-Math.pow(rightPower, 3));
-      driveSlaveL.set(-Math.pow(leftPower, 3));
-      driveSlaveR.set(-Math.pow(rightPower, 3));*/
+
       
   
   public void autoPower(double leftPower, double rightPower){
-    
+    /*
     driveMasterLeft.set(ControlMode.PercentOutput, -leftPower);
     driveMasterRight.set(ControlMode.PercentOutput, -rightPower);
     driveSlaveLeft.set(ControlMode.PercentOutput, leftPower);
     driveSlaveRight.set(ControlMode.PercentOutput, -rightPower);
-    
-    /*driveMasterL.set(leftPower);
+    */
+    driveMasterL.set(leftPower);
     driveMasterR.set(rightPower);
     driveSlaveL.set(leftPower);
-    driveSlaveR.set(rightPower);*/
+    driveSlaveR.set(rightPower);
     /*if(limelight.getY() < 1 && limelight.getY() > -1){
       turretMotor.set(ControlMode.PercentOutput, turretPower);
     }
@@ -106,39 +108,24 @@ public class Drive extends SubsystemBase {
 
   }
   
-  /*public void Shift(boolean button){
+  public void shift(boolean button){
+    
 
-        if(button){
-          if(toggle = false){
-            count = 1;
-          }
-          else{
-            count = 0;
-          }
-        }
-        
-        switch(count){
-          case 0:
-            toggle = false;
-            break;
-          case 1:
-            toggle = true;
-            break;
-          default:
-            toggle = false;
-            break;
-        }
-
-        if(toggle){
-          shifter.set(true);
-        }
-        else{
-          shifter.set(false);
-        }
-
+    if (toggle && button) {  // Only execute once per Button push
+      toggle = false;  // Prevents this section of code from being called again until the Button is released and re-pressed
+      if (shifterFlag) {  // Decide which way to set the motor this time through (or use this as a motor value instead)
+        shifterFlag = false;
+        shifter.set(true);
+      } else {
+        shifterFlag= true;
+        shifter.set(false);
+      }
+    } else if(button == false) { 
+        toggle = true; // Button has been released, so this allows a re-press to activate the code above.
+    }
 
       
-    } */
+    } 
     
 
 }

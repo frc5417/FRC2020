@@ -31,7 +31,7 @@ public class RobotContainer{
     public JoystickButton xPadM;
     public JoystickButton bPadM;
     public JoystickButton yPadM;
-    public JoystickButton rBumperM;
+    public JoystickButton rBumper;
 
     public RobotContainer(){
         pathfollower = new TrajectoryFollowing();
@@ -41,7 +41,7 @@ public class RobotContainer{
         xPadM = new JoystickButton(padManipulator, 3);
         bPadM = new JoystickButton(padManipulator, 2);
         yPadM = new JoystickButton(padManipulator, 4);
-        rBumperM = new JoystickButton(padManipulator, 6);
+        rBumper = new JoystickButton(pad, 6);
 
     }
 
@@ -89,8 +89,8 @@ public class RobotContainer{
         return pad.getRawButton(5);
     }
 
-    public boolean rBumperM(){
-        return padManipulator.getRawButton(6);
+    public boolean rBumper(){
+        return pad.getRawButton(6);
     }
     public boolean yButton(){
         return pad.getRawButton(4);

@@ -149,14 +149,14 @@ public class Robot extends TimedRobot {
     //align.schedule();
     //climbL.schedule();
     //climbU.schedule();
-    //robotContainer.rBumperM.whenActive(shift);
+    drive.shift(robotContainer.rBumper());
     drive.setDefaultCommand(tankDrive);
     robotContainer.aPadM.whileHeld(align);
-    //robotContainer.yPadM.whileHeld(shoot);
+    robotContainer.yPadM.whileHeld(shoot);
     //intakeForward.schedule();
     //intakeBackward.schedule();
-    //robotContainer.xPadM.whileHeld(intakeSystem);
-    //robotContainer.bPadM.whileHeld(intakeSystem);
+    robotContainer.xPadM.whileHeld(intakeSystem);
+    robotContainer.bPadM.whileHeld(intakeSystem);
     //moveTurret.schedule();
     CommandScheduler.getInstance().run();
     
@@ -166,7 +166,7 @@ public class Robot extends TimedRobot {
       ledMode.setNumber(3);
     }
     else{
-      ledMode.setNumber(3);
+      ledMode.setNumber(1);
     }
 
     
