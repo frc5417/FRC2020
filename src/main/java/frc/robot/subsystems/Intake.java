@@ -43,12 +43,13 @@ public class Intake extends SubsystemBase {
       internalBelt.setNeutralMode(NeutralMode.Coast);
       feeder.setNeutralMode(NeutralMode.Coast);
       masterShoot.getPIDController().setFF(Constants.shootkFF);
-      slaveShoot.getPIDController().setFF(Constants.shootkFF);
+      //slaveShoot.getPIDController().setFF(Constants.shootkFF);
       masterShoot.getPIDController().setP(Constants.shootkP);
-      slaveShoot.getPIDController().setP(Constants.shootkP);
+      //slaveShoot.getPIDController().setP(Constants.shootkP);
       masterShoot.getPIDController().setI(Constants.shootkI);
-      slaveShoot.getPIDController().setI(Constants.shootkI);
+      //slaveShoot.getPIDController().setI(Constants.shootkI);
       setPoint = Constants.shootsetPointConstant*Constants.shootMaxRPM;
+      
     }
     
     // Use Victor.follow() for master/slave stuff}
@@ -126,12 +127,12 @@ public class Intake extends SubsystemBase {
 
   public void shoot(boolean button){
     if(button){
-      /*
-      masterShoot.set(-1);
-      slaveShoot.set(-1);
-            */
+      
+      /*masterShoot.set(-1);
+      slaveShoot.set(-1);*/
+            
       System.out.println(masterShoot.getEncoder().getVelocity() + " Motor ID: 12");
-      System.out.println(slaveShoot.getEncoder().getVelocity() + " Motor ID: 3");
+      //System.out.println(slaveShoot.getEncoder().getVelocity() + " Motor ID: 3");
       masterShoot.getPIDController().setReference(setPoint, ControlType.kVelocity);
       slaveShoot.follow(masterShoot);
 
@@ -144,8 +145,9 @@ public class Intake extends SubsystemBase {
         feeder.set(0);
       }
     }
-    else{
+    else if(!button){
       masterShoot.set(0);
+      masterShoot.getPIDController().setReference(0, ControlType.kVelocity);
       slaveShoot.set(0);
       internalBelt.set(0);
       feeder.set(0);

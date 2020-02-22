@@ -16,7 +16,7 @@ public class Constants {
     public static final int shooterSlave = 3;
     public static final int turretPort = 9;
 
-    public static final double Kp = .02;
+    public static final double Kp = .05;
     public static final double min_command = .05; //real bot .1
     public static final double distance_adjust = .05;
     public static final double ticksPerRev = 12.0; // Without Gear Reduction
@@ -50,5 +50,5 @@ public class Constants {
     public static final double shootkMaxOutput = 1; 
     public static final double shootkMinOutput = -1;
     public static final double shootMaxRPM = 5700;
-    public static final double shootsetPointConstant = -5000;
+    public static final double shootsetPointConstant = -4000;
 }

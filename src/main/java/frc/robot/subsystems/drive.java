@@ -38,12 +38,12 @@ public class Drive extends SubsystemBase {
   
   boolean shifterFlag = false;
   boolean toggle = true;
-/*
-  TalonSRX driveMasterRight = new TalonSRX(Constants.masterRightMotor);
+
+  /*TalonSRX driveMasterRight = new TalonSRX(Constants.masterRightMotor);
   TalonSRX driveMasterLeft = new TalonSRX(Constants.masterLeftMotor);
   VictorSPX driveSlaveRight = new VictorSPX(Constants.slaveRightMotor);
-  VictorSPX driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);
-*/
+  VictorSPX driveSlaveLeft = new VictorSPX(Constants.slaveLeftMotor);*/
+
 
   public Drive(){
   
@@ -76,30 +76,34 @@ public class Drive extends SubsystemBase {
     driveSlaveL.set(-Math.pow(leftPower, 3));
     driveSlaveR.set(-Math.pow(rightPower, 3));
     
-    }
+  }
     /*else{
       driveMasterLeft.set(ControlMode.PercentOutput, 0);
       driveMasterRight.set(ControlMode.PercentOutput, 0);
       driveSlaveLeft.set(ControlMode.PercentOutput, 0);
       driveSlaveRight.set(ControlMode.PercentOutput, 0);
     }*/
+  
     
     
 
       
   
   public void autoPower(double leftPower, double rightPower){
-    /*
-    driveMasterLeft.set(ControlMode.PercentOutput, -leftPower);
+    
+    /*driveMasterLeft.set(ControlMode.PercentOutput, -leftPower);
     driveMasterRight.set(ControlMode.PercentOutput, -rightPower);
     driveSlaveLeft.set(ControlMode.PercentOutput, leftPower);
-    driveSlaveRight.set(ControlMode.PercentOutput, -rightPower);
-    */
+    driveSlaveRight.set(ControlMode.PercentOutput, -rightPower);*/
+    
     driveMasterL.set(leftPower);
     driveMasterR.set(rightPower);
     driveSlaveL.set(leftPower);
     driveSlaveR.set(rightPower);
-    /*if(limelight.getY() < 1 && limelight.getY() > -1){
+  
+
+    /*
+    if(limelight.getY() < 1 && limelight.getY() > -1){
       turretMotor.set(ControlMode.PercentOutput, turretPower);
     }
     else{
@@ -126,6 +130,6 @@ public class Drive extends SubsystemBase {
 
       
     } 
-    
+  
 
 }

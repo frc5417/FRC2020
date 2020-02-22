@@ -111,6 +111,10 @@ public class Limelight extends SubsystemBase {
       return y;
     }
 
+    public double getX(){
+      return x;
+    }
+
 
     public void printX(){
       System.out.println(x);

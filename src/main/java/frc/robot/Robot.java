@@ -18,6 +18,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.Compressor;
@@ -121,7 +122,8 @@ public class Robot extends TimedRobot {
     trajectoryFollowing.zeroHeading();
     trajectoryFollowing.resetEncoders();
 
-    autonomous = robotContainer.getAutonomousCommand();
+    //autonomous = robotContainer.getAutonomousCommand();
+    autonomous = new SequentialCommandGroup(new AutoAlign(limelight));
     if (autonomous != null) {
       autonomous.schedule();
     }
@@ -152,14 +154,14 @@ public class Robot extends TimedRobot {
     drive.shift(robotContainer.rBumper());
     drive.setDefaultCommand(tankDrive);
     robotContainer.aPadM.whileHeld(align);
-    robotContainer.yPadM.whileHeld(shoot);
+    //robotContainer.yPadM.whileHeld(shoot);
+    shoot.schedule();
     //intakeForward.schedule();
     //intakeBackward.schedule();
     robotContainer.xPadM.whileHeld(intakeSystem);
     robotContainer.bPadM.whileHeld(intakeSystem);
     //moveTurret.schedule();
     CommandScheduler.getInstance().run();
-    
     
     if (robotContainer.aButtonM()){
       

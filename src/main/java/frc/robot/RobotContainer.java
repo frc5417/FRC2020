@@ -109,6 +109,9 @@ public class RobotContainer{
         return padManipulator.getRawAxis(5); // right side
    }
 
+   public boolean yButtonManipulator(){
+    return padManipulator.getRawButton(4);
+   }
 
 }
 
