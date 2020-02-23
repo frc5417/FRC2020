@@ -34,14 +34,16 @@ public class Climb extends SubsystemBase {
     CANSparkMax motorR = new CANSparkMax(Constants.RClimb, MotorType.kBrushless);
     CANSparkMax motorL = new CANSparkMax(Constants.LClimb, MotorType.kBrushless);
 
-    int toggle;
+    boolean toggle;
     int count;
+    double climbPower;
 
     public Climb(){
       motorR.setInverted(false);
       motorL.setInverted(true);
-      toggle = 0;
+      toggle = true;
       count = 0;
+      climbPower = -.5;
 
     }
 /*
@@ -78,8 +80,9 @@ public class Climb extends SubsystemBase {
     }
     */
 
-    public void latch(boolean buttonLeftUp, double buttonLeftDown, boolean buttonRightUp, double buttonRightDown)
+    public void latch(boolean buttonDirectionUp, boolean buttonDirectionDown, double buttonLeft, double buttonRight)
     {
+      /*
       if(buttonLeftUp && buttonLeftDown == 0){
         motorL.set(-.5);
         System.out.println("latch function");
@@ -100,6 +103,26 @@ public class Climb extends SubsystemBase {
       else{
         motorR.set(0);
       }
+      */
+      if(buttonDirectionUp){
+        climbPower = .5;
+      }
+      else if(buttonDirectionDown){
+        climbPower = -.5;
+      }
+      if(buttonRight != 0){
+        motorR.set(climbPower);
+      }
+      else{
+        motorR.set(0);
+      }
+      if(buttonLeft != 0){
+        motorL.set(climbPower);
+      }
+      else{
+        motorL.set(0);
+      }
+
     }
     public void unLatch(double Power)
     {

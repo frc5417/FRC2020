@@ -9,12 +9,14 @@ public class Constants {
     public static final int slaveLeftMotor = 15; // actual 15 test 3
     public static final int LClimb = 13;
     public static final int RClimb = 2;
-    public static final int intakeRoller = 11;
-    public static final int intakeMotorTop = 10;
+    public static final int intakeRoller = 6;
+    public static final int intakeMotorTop = 5;
     public static final int intakeMotorBottom = 4;
     public static final int shooterMaster = 12;
     public static final int shooterSlave = 3;
     public static final int turretPort = 9;
+    public static final int ballInternalCounterPort = 0;
+    public static final int ballFeederCounterPort = 1;
 
     public static final double Kp = .05;
     public static final double min_command = .05; //real bot .1

@@ -27,6 +27,7 @@ public class RobotContainer{
     public TrajectoryFollowing pathfollower;
     public Joystick pad;
     public Joystick padManipulator;
+    public JoystickButton aPad;
     public JoystickButton aPadM;
     public JoystickButton xPadM;
     public JoystickButton bPadM;
@@ -37,6 +38,7 @@ public class RobotContainer{
         pathfollower = new TrajectoryFollowing();
         pad = new Joystick(0);
         padManipulator = new Joystick(1);
+        aPad = new JoystickButton(pad, 1);
         aPadM = new JoystickButton(padManipulator, 1);
         xPadM = new JoystickButton(padManipulator, 3);
         bPadM = new JoystickButton(padManipulator, 2);
@@ -75,6 +77,12 @@ public class RobotContainer{
     public double rightSpeed(){
         return pad.getRawAxis(5);
     }
+    public double rTrigger(){
+        return pad.getRawAxis(3);
+    }
+    public double lTrigger(){
+        return pad.getRawAxis(2);
+    }
     public double rTriggerM(){
         return padManipulator.getRawAxis(3);
     }
@@ -109,8 +117,14 @@ public class RobotContainer{
     public boolean startButton(){
         return pad.getRawButton(7);
     }
+    public boolean selectButton(){
+        return pad.getRawButton(8);
+    }
     public boolean aButtonM(){
         return padManipulator.getRawButton(1);
+    }
+    public boolean aButton(){
+        return pad.getRawButton(1);
     }
 
     public double turretSpeed(){

@@ -123,11 +123,11 @@ public class Robot extends TimedRobot {
     trajectoryFollowing.resetEncoders();
 
     //autonomous = robotContainer.getAutonomousCommand();
-    autonomous = new SequentialCommandGroup(new AutoAlign(limelight));
+    autonomous = new SequentialCommandGroup(new AutoAlign(limelight), new AutoShoot(intake));
     if (autonomous != null) {
       autonomous.schedule();
     }
-
+    ledMode.setNumber(3);
 
   }
 
@@ -136,8 +136,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    
+    intake.count += 20;
     CommandScheduler.getInstance().run();
-    System.out.println(trajectoryFollowing.getPose());
+    //System.out.println(trajectoryFollowing.getPose());
     
   }
 
@@ -151,17 +153,22 @@ public class Robot extends TimedRobot {
     //align.schedule();
     climbL.schedule();
     //climbU.schedule();
-    drive.shift(robotContainer.rBumper());
+    drive.shiftPiston(robotContainer.lBumper(), robotContainer.rBumper());
     drive.setDefaultCommand(tankDrive);
-    robotContainer.aPadM.whileHeld(align);
-    intake.shoot(robotContainer.yButtonM());
+    robotContainer.aPad.whileHeld(align);
+    if(robotContainer.yButtonM()){
+      intake.shoot(robotContainer.yButtonM());
+    }
+    else{
+      intakeSystem.schedule();
+    }
     //intakeForward.schedule();
     //intakeBackward.schedule();
-    intakeSystem.schedule();
+
     //moveTurret.schedule();
     CommandScheduler.getInstance().run();
     
-    if (robotContainer.aButtonM()){
+    if (robotContainer.aButton()){
       
       ledMode.setNumber(3);
     }

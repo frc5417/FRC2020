@@ -15,10 +15,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
+import edu.wpi.first.wpilibj.DigitalInput;
 
 //test7
 public class Intake extends SubsystemBase {
@@ -27,15 +27,23 @@ public class Intake extends SubsystemBase {
 
   //feel free to change these names, they might suck
 
-    double intakeSpeed = 1;
+    double intakeSpeed = .5;
     double feederSpeed = .3;
     public int count = 0;
+    int ballInternalCount = 0;
+    boolean ballInternalToggle = true;
+    int ballFeederCount = 0;
+    boolean ballFeederToggle = false;
+    boolean feederFlag = true;
 
     WPI_VictorSPX rollerBar = new WPI_VictorSPX(Constants.intakeRoller);//rollerbar               //ask build which ports theyll use
     WPI_VictorSPX internalBelt = new WPI_VictorSPX(Constants.intakeMotorTop);//internal belt thing
     WPI_VictorSPX feeder = new WPI_VictorSPX(Constants.intakeMotorBottom);//the one that puts it in the shooter
     CANSparkMax masterShoot =  new CANSparkMax(Constants.shooterMaster, MotorType.kBrushless);
     CANSparkMax slaveShoot =  new CANSparkMax(Constants.shooterSlave, MotorType.kBrushless);
+    DigitalInput ballInternalCounter = new DigitalInput(Constants.ballInternalCounterPort);
+    DigitalInput ballFeederCounter = new DigitalInput(Constants.ballFeederCounterPort);
+    //Solenoid intakeSolenoid = new Solenoid(1);
     double setPoint;
     
     public Intake(){
@@ -65,26 +73,79 @@ public class Intake extends SubsystemBase {
       intakeSpeed = speed;
   }
 
-  public void runIntakeSystem(boolean buttonForward, boolean buttonBackward){ //runs rollerbar and 
-    if(buttonForward == true && buttonBackward == false){
-      internalBelt.set(intakeSpeed);
-      feeder.set(intakeSpeed);
+  public void runIntakeSystem(double buttonForward, double buttonBackward, boolean buttonIn, boolean buttonOut){ //runs rollerbar and 
+    if(buttonForward != 0 && buttonBackward == 0){
+      rollerBar.set(intakeSpeed);
+      /*if(ballFeederCounter.get()){
+        ballInternalToggle = true;
+      }
+      if(ballFeederCounter.get() == false){
+        if(ballInternalToggle){
+          internalBelt.set(0);
+          ballInternalToggle = false;
+        }
+      }*/
+
+      if(ballFeederCounter.get() == false){
+        feeder.set(intakeSpeed);
+        internalBelt.set(-intakeSpeed);
+      }
+      else if(ballFeederCounter.get()){
+        feeder.set(0);
+        internalBelt.set(-intakeSpeed);
+        if(ballInternalCounter.get() && ballInternalToggle == false){
+          ballInternalToggle = true;
+          internalBelt.set(0);
+        }
+      }
+      if(ballInternalToggle && buttonForward != 0){
+        ballInternalToggle = false;
+        if(ballInternalCounter.get()){
+          internalBelt.set(-intakeSpeed);
+        }
+        else{
+          internalBelt.set(0);
+        }
+      }
+
+
+
     }    
-    else if(buttonBackward == true && buttonForward == false){
-      internalBelt.set(-intakeSpeed);
+    else if(buttonBackward != 0 && buttonForward == 0){
+      rollerBar.set(-intakeSpeed);
+      internalBelt.set(intakeSpeed);
       feeder.set(-intakeSpeed);
     }
+    else if(buttonIn && buttonOut == false){
+      rollerBar.set(intakeSpeed);
+    }else if(buttonOut && buttonIn == false){
+      rollerBar.set(-intakeSpeed);
+    }
     else{
+      rollerBar.set(0);
       internalBelt.set(0);
       feeder.set(0);
     }
+
+
+  }
+  public void deployPistons(boolean buttonDeploy, boolean buttonRetract){
+    if(buttonDeploy){
+      //intakeSolenoid.set(true);
+    }
+    else if(buttonRetract){
+      //intakeSolenoid.set(false);
+    }
   }
 
-  public void runRollerBar(boolean button){
-    if(button){
+  public void runRollerBar(boolean buttonIn, boolean buttonOut){
+    if(buttonIn && buttonOut == false){
       rollerBar.set(intakeSpeed);
-    }else{
-      rollerBar.setNeutralMode(NeutralMode.Brake);
+    }else if(buttonOut && buttonIn == false){
+      rollerBar.set(-intakeSpeed);
+    }
+    else{
+      rollerBar.set(0);
     }
   }
   public void runRollerBarBackwards(boolean button){
@@ -155,4 +216,19 @@ public class Intake extends SubsystemBase {
     }
 
   }
+
+  public void AutoShoot(){
+
+      masterShoot.getPIDController().setReference(setPoint, ControlType.kVelocity);
+      slaveShoot.follow(masterShoot);
+
+      if(masterShoot.getEncoder().getVelocity() <= (Constants.shootsetPointConstant + 500) && masterShoot.getEncoder().getVelocity() >= (Constants.shootsetPointConstant - 500)){
+        internalBelt.set(intakeSpeed);
+        feeder.follow(internalBelt);
+      }
+      else{
+        internalBelt.set(0);
+        feeder.set(0);
+      }
+    }
 }

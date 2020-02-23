@@ -8,29 +8,30 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.*;
 import frc.robot.Robot;
+import frc.robot.subsystems.*;
 
-public class RunIntakeSystem extends CommandBase {
-  private final Intake i;
+public class AutoShoot extends CommandBase {
+  public final Intake in;
   /**
-   * Creates a new RunIntakeSystem.
+   * Creates a new AutoShoot.
    */
-  public RunIntakeSystem(Intake subsystem) {
-    i = subsystem;
-    addRequirements(i);
+  public AutoShoot(Intake subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    in = subsystem;
+    addRequirements(in);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Robot.intake.count = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.intake.runIntakeSystem(Robot.robotContainer.rTriggerM(), Robot.robotContainer.lTriggerM(), Robot.robotContainer.bButtonM(), Robot.robotContainer.xButtonM());
+    Robot.intake.AutoShoot();
   }
 
   // Called once the command ends or is interrupted.
@@ -41,6 +42,9 @@ public class RunIntakeSystem extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(Robot.intake.count > 5000){
+      return true;
+    }
+    else return false;
   }
 }

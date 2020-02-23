@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 import frc.robot.Robot;
 
-public class RunIntakeSystem extends CommandBase {
-  private final Intake i;
+public class DeployIntakePistons extends CommandBase {
+  Intake i;
   /**
-   * Creates a new RunIntakeSystem.
+   * Creates a new DeployIntakePistons.
    */
-  public RunIntakeSystem(Intake subsystem) {
+  public DeployIntakePistons(Intake subsystem) {
     i = subsystem;
     addRequirements(i);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,7 +30,7 @@ public class RunIntakeSystem extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.intake.runIntakeSystem(Robot.robotContainer.rTriggerM(), Robot.robotContainer.lTriggerM(), Robot.robotContainer.bButtonM(), Robot.robotContainer.xButtonM());
+    Robot.intake.deployPistons(Robot.robotContainer.rBumperM(), Robot.robotContainer.lBumperM());
   }
 
   // Called once the command ends or is interrupted.

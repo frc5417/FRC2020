@@ -32,7 +32,7 @@ public class Drive extends SubsystemBase {
   CANSparkMax driveSlaveR = new CANSparkMax(Constants.slaveRightMotor, MotorType.kBrushless);
   CANSparkMax driveMasterL = new CANSparkMax(Constants.masterLeftMotor, MotorType.kBrushless);
   TalonSRX turretMotor = new TalonSRX(9);
-  Solenoid shifter;
+  //Solenoid shifter;
   Compressor compressor;
   Limelight limelight = new Limelight();
   
@@ -56,7 +56,8 @@ public class Drive extends SubsystemBase {
 
     turretMotor.setNeutralMode(NeutralMode.Coast);
 
-    shifter = new Solenoid(0);
+    //shifter = new Solenoid(0);
+    //shifter.set(false);
 
     
   }
@@ -72,9 +73,9 @@ public class Drive extends SubsystemBase {
     */
 
     driveMasterL.set(-Math.pow(leftPower, 3));
-    driveMasterR.set(-Math.pow(rightPower, 3));
+    driveMasterR.set(Math.pow(rightPower, 3));
     driveSlaveL.set(-Math.pow(leftPower, 3));
-    driveSlaveR.set(-Math.pow(rightPower, 3));
+    driveSlaveR.set(Math.pow(rightPower, 3));
     
   }
     /*else{
@@ -112,9 +113,9 @@ public class Drive extends SubsystemBase {
 
   }
   
-  public void shift(boolean button){
+  public void shiftPiston(boolean buttonH, boolean buttonL){
     
-
+/*
     if (toggle && button) {  // Only execute once per Button push
       toggle = false;  // Prevents this section of code from being called again until the Button is released and re-pressed
       if (shifterFlag) {  // Decide which way to set the motor this time through (or use this as a motor value instead)
@@ -127,7 +128,14 @@ public class Drive extends SubsystemBase {
     } else if(button == false) { 
         toggle = true; // Button has been released, so this allows a re-press to activate the code above.
     }
+*/
 
+    if(buttonL && buttonH == false){
+      //shifter.set(true);
+    }
+    else if(buttonH && buttonL == false){
+      //shifter.set(false);
+    }
       
     } 
   

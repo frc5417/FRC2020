@@ -30,7 +30,7 @@ public class Shift extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.drive.shift(Robot.robotContainer.rBumper());
+    Robot.drive.shiftPiston(Robot.robotContainer.rBumper(), Robot.robotContainer.lBumper());
   }
 
   // Called once the command ends or is interrupted.
