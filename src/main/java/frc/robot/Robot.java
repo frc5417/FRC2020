@@ -10,10 +10,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Joystick; 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -24,6 +24,7 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.buttons.*;
 
 /*Moved to Color.java
 //importing main color libraries
@@ -74,18 +75,18 @@ public class Robot extends TimedRobot {
   
   public static XboxController m_Controller = new XboxController(1); // Creates an XboxController on port 2.
   public static Limelight l = new Limelight();
-  public static Joystick pad = new Joystick(0);
+  
   public static Drive d = new Drive();
   public static Climb c = new Climb();
   public static Intake i = new Intake();
-  public static RobotContainer r = new RobotContainer();
+  public static RobotContainer m_RobotContainer = new RobotContainer();
   public static Command a;
   //color related commands/subsystems
   String gameData; //this will be a character obtained from Driverstation 
   public static ColorSensor m_ColorSensor = new ColorSensor();
   public static colorMotor m_colorMotor = new colorMotor();  
   public static Command m_colorMove = new colorMove(m_colorMotor);
-  public static JoystickButton colorButton = new JoystickButton(pad, 1);
+
   public static String behindColor;
 
   
@@ -256,7 +257,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    a = r.getAutonomousCommand();
+    a = m_RobotContainer.getAutonomousCommand();
     if (a != null) {
       a.schedule();
     }
@@ -286,8 +287,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    
-    m_colorMove.schedule();
+    //m_RobotContainer.aPad.whileHeld((edu.wpi.first.wpilibj.command.Command) Robot.m_colorMove);
+    m_RobotContainer.aPad.whileHeld(Robot.m_colorMove);
 
     
     

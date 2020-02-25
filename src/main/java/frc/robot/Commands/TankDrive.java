@@ -29,7 +29,7 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.d.SetPower(Robot.r.leftSpeed(), Robot.r.rightSpeed());
+    Robot.d.SetPower(Robot.m_RobotContainer.leftSpeed(), Robot.m_RobotContainer.rightSpeed());
   }
 
   // Called once the command ends or is interrupted.

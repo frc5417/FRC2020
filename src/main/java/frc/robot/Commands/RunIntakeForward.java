@@ -29,7 +29,7 @@ public class RunIntakeForward extends CommandBase {
   @Override
   public void execute() {
     Robot.i.setIntakeSpeed(.2);
-    Robot.i.runIntakeSystem(Robot.r.xButton());
+    Robot.i.runIntakeSystem(Robot.m_RobotContainer.xButton());
   }
 
   // Called once the command ends or is interrupted.

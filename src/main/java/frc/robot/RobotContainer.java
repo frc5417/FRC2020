@@ -14,16 +14,19 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.*;
 import java.util.List;
 import edu.wpi.first.wpilibj.kinematics.*;
-import edu.wpi.first.wpilibj.Joystick; 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class RobotContainer{
 
     TrajectoryFollowing pathfollower;
     Joystick pad;
+    JoystickButton aPad;
 
     public RobotContainer(){
         pathfollower = new TrajectoryFollowing();
         pad = new Joystick(0);
+        aPad = new JoystickButton(pad, 1);
     }
 
     public Command getAutonomousCommand(){
