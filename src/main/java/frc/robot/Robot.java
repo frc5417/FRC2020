@@ -21,8 +21,8 @@ import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
-import frc.robot.commands.*;
-import frc.robot.Dashboard;
+import frc.robot.Commands.*;
+//import frc.robot.Dashboard;
 
 
 /**
