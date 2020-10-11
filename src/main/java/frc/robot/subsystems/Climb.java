@@ -20,7 +20,6 @@ package frc.robot.subsystems;
 
 //Importing Packages For Solenoid And Spark(Neo) Motors
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
