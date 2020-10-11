@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 
-package frc.robot.commands;
+package frc.robot.Commands;
 
 import frc.robot.subsystems.*;
 import frc.robot.Robot;
